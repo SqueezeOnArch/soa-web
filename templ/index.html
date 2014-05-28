@@ -1,0 +1,17 @@
+<form id="Index" name="locale" action="/index.html" method="get">
+  <div align="right">
+  	<p class="language">
+	{{{language}}}:
+	<select name="locales" class="language" OnChange="location.href=locale.locales.options[selectedIndex].value">
+	  {{#p_languages}}
+	  <option value="/index.html?locale={{lang}}" {{selected}}>{{{desc}}}</option>
+	  {{/p_languages}}
+	</select>
+	</p>
+  </div>
+</form>
+
+<center>
+  <img src="{{{logo_large}}}" alt="{{{brand_name}}} {{{logo_large_alt}}}" 
+       width="{{{logo_large_width}}}" height="{{{logo_large_height}}}" />
+</center>

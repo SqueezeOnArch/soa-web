@@ -1,0 +1,184 @@
+<script type="text/javascript">
+function remoteTypeCheck() {
+	var e = document.getElementById("type_remote");
+	var val = e.options[e.selectedIndex].value;
+	if (val == 'cifs') {
+		document.getElementById('cifs_only').style.display = '';
+	} else {
+		document.getElementById('cifs_only').style.display = 'none';
+	}
+}
+</script>
+
+<div class="title-block">
+  <a href="/storage.html">
+	<div class="title-image">
+	  <img src="static/backup.png" width="64" height="64" alt="Storage" /> 
+	</div>
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+  </a>
+  <div class="title">{{{title}}}</div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+{{#p_error}}
+<ul class="errorMessage">
+  <li><span>{{{p_error}}}</span></li>
+</ul>
+{{/p_error}}
+
+<div>
+
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	</div>
+  </div>
+  {{{/context}}}
+  
+  <div class="config">
+	
+	<form id="mounts_config" name="localfs_config" action="/storage.html" method="post">
+	  <fieldset>
+		<legend>{{{mounts}}}</legend>
+		{{#p_mounts}}
+		<div class="entry-nomargin">
+		  <div class="label"><b>{{{p_mountp}}}</b></div>
+		  <div class="input">{{{p_spec}}} ({{{p_type}}}) <b>{{{p_active}}}</b></div>
+		</div>
+		<div class="entry-indent smaller">
+		  {{{p_opt}}}
+		</div>
+		<div class="entry-indent smaller">
+		  <b>{{{p_samba_str}}}</b>
+		</div>
+		<div class="entry submit">
+		  <button type="submit" name="{{p_action}}" value={{{p_mountp}}}>{{{p_action_str}}}</button>
+		  <button type="submit" name="{{p_remove}}" value={{{p_mountp}}}>{{{p_remove_str}}}</button>
+		</div>
+		{{/p_mounts}}
+	  </fieldset>
+	</form>
+	
+	<form id="local_config" name="local_config" action="/storage.html" method="post">
+	  <fieldset>
+		<legend>{{{localfs}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{mountpoint_tip}}}">
+			<label for="mountpoint" class="label">{{{mountpoint}}}</label>
+			<select name="mountpoint" id="mountpoint" class="input">
+			  {{#p_mountpoints}}
+			  <option value="{{{id}}}">{{{desc}}}</option>
+			  {{/p_mountpoints}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{disk_tip}}}">
+			<label for="spec" class="label">{{{disk}}}</label>
+			<select name="spec" id="spec" class="input">
+			  {{#p_disks}}
+			  <option value="{{{id}}}">{{{id}}}</option>
+			  {{/p_disks}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{type_tip}}}">
+			<label for="type" class="label">{{{type}}}</label>
+			<select name="type" id="type" class="input">
+			  {{#p_types_local}}
+			  <option value="{{{id}}}">{{{id}}}</option>
+			  {{/p_types_local}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{options_tip}}}">
+			<label for="options" class="label">{{{options}}}</label>
+			<input class="input" type="text" name="options" id="options" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="localfs_mount" name="localfs_mount" value="{{{add}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+	
+	<form id="remote_config" name="remote_config" action="/storage.html" method="post">
+	  <fieldset>
+		<legend>{{{remotefs}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{mountpoint_tip}}}">
+			<label for="mountpoint_remote" class="label">{{{mountpoint}}}</label>
+			<select name="mountpoint" id="mountpoint_remote" class="input">
+			  {{#p_mountpoints}}
+			  <option value="{{{id}}}">{{{desc}}}</option>
+			  {{/p_mountpoints}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{network_tip}}}">
+			<label for="spec_remote" class="label">{{{network}}}</label>
+			<input class="input" type="text" name="spec" id="spec_remote" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{type_tip}}}">
+			<label for="type_remote" class="label">{{{type}}}</label>
+			<select name="type" id="type_remote" class="input" onchange="javascript:remoteTypeCheck()">
+			  {{#p_types_remote}}
+			  <option value="{{{id}}}">{{{id}}}</option>
+			  {{/p_types_remote}}
+			</select>
+		  </div>
+		</div>
+		<div id="cifs_only" style="display: none">
+		  <div class="entry">
+			<div class="features simptip-position-right simptip-smooth" data-tooltip="{{{user_tip}}}">
+			  <label for="user" class="label">{{{user}}}</label>
+			  <input class="input" type="text" name="user" id="user" />
+			</div>
+		  </div>
+		  <div class="entry">
+			<div class="features simptip-position-right simptip-smooth" data-tooltip="{{{pass_tip}}}">
+			  <label for="pass" class="label">{{{pass}}}</label>
+			  <input class="input" type="password" name="pass" id="pass" />
+			</div>
+		  </div>
+		  <div class="entry">
+			<div class="features simptip-position-right simptip-smooth" data-tooltip="{{{domain_tip}}}">
+			  <label for="domain" class="label">{{{domain}}}</label>
+			  <input class="input" type="text" name="domain" id="domain" />
+			</div>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{options_tip}}}">
+			<label for="options_remote" class="label">{{{options}}}</label>
+			<input class="input" type="text" name="options" id="options_remote" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="remotefs_mount" name="remotefs_mount" value="{{{add}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+	
+  </div>
+  
+</div>

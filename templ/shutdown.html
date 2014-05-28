@@ -1,0 +1,55 @@
+<div class="title-block">
+  <a href="/shutdown.html">
+	<div class="title-image">
+	  <img src="static/status.png" width="64" height="64" alt="Shutdown" /> 
+	</div>
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+  </a>
+  <div class="title">{{{title}}}</div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+<div>
+  
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	</div>
+  </div>
+  {{{/context}}}
+  
+  <div class="config">
+	
+	<form id="system" name="system" action="/shutdown.html" method="post">
+	  <fieldset>
+		<legend >{{{reboot}}}</legend>
+		<div class="entry">{{{reboot_desc}}}</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="reboot" name="reboot" value="{{{reboot}}}"/>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<legend>{{{halt}}}</legend>
+		<div class="entry">{{{halt_desc}}}</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="halt" name="halt" value="{{{halt}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+
+  </div>	
+
+</div>

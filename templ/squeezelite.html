@@ -1,0 +1,388 @@
+<script type="text/javascript">
+var log_xhr;
+function update_log(id, url, lines) {
+  var xhr = new XMLHttpRequest();
+  if (xhr) {
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 3) {
+        var lines = xhr.responseText.split('\n')
+        if (lines.length > lines) {
+          lines.splice(0, lines.length - lines)
+        }
+        var textArea = document.getElementById(id);
+        textArea.textContent = lines.join('\n');
+        textArea.scrollTop = textArea.scrollHeight;
+      }
+    }
+    xhr.open("GET", url, true);
+    xhr.send();
+    return xhr;
+  }
+}
+function startstop_log(action) {
+  if (!action) {
+    action = log_xhr ? 'stop' : 'start';
+  }
+  if (action == 'start' && !log_xhr) {
+    log_xhr = update_log('squeezelite_status', 'squeezelite.log?stream=1', 100);
+  } else if (action == 'stop' && log_xhr) {
+    log_xhr.abort();
+    log_xhr = null;
+  }
+}
+function show_advanced(track, show1, show2, show3) {
+  if (document.getElementById(track).checked) {
+    document.getElementById(show1).style.display = '';
+    document.getElementById(show2).style.display = '';
+    document.getElementById(show3).style.display = '';
+    startstop_log('start');
+  } else {
+    document.getElementById(show1).style.display = 'none';
+    document.getElementById(show2).style.display = 'none';
+    document.getElementById(show3).style.display = 'none';
+    startstop_log('stop')
+  }
+}
+function show_resample(track, show1, show2) {
+  if (document.getElementById(track).checked) {
+    document.getElementById(show1).style.display = '';
+    document.getElementById(show2).style.display = '';
+  } else {
+    document.getElementById(show1).style.display = 'none';
+    document.getElementById(show2).style.display = 'none';
+  }
+}
+{{#p_advanced}}
+window.onload = function() {
+  startstop_log('start');
+}
+{{/p_advanced}}
+</script>
+
+<div class="title-block">
+  <a href="/squeezelite.html">
+	<div class="title-image">
+	  <img src="static/speaker.png" width="64" height="64" 
+	       alt="SqueezeLite Player" /> 
+	</div>                           
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+  </a>
+  <div class="title">{{{title}}}</div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+{{#p_error}}
+<ul class="errorMessage">
+  <li><span>{{{p_error}}}</span></li>
+</ul>
+{{/p_error}}
+
+<div>
+
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	  <div id="context-resample" {{^p_resample}} style="display: none" {{/p_resample}}>
+		{{{context_resample}}}
+	  </div>
+	  <div id="context-advanced" {{^p_advanced}} style="display: none" {{/p_advanced}}>
+		{{{context_advanced}}}
+	  </div>
+	</div>
+  </div>
+  {{{/context}}}
+
+  <div class="config">
+
+	<fieldset>
+	  <legend>{{{status}}}</legend>
+	  <div class="entry-nomargin">
+		<div class="label">{{{status}}}</div>
+		<div class="input"><b>{{{p_status}}}</b></div>
+	  </div>
+	  <div class="entry-nomargin">
+		<div class="label">{{{active}}}</div>
+		<div class="input"><b>{{{p_active}}}</b></div>
+	  </div>
+	</fieldset>
+	
+	<form id="squeezelite_service" name="squeezelite_service" action="/squeezelite.html" method="post">
+	  <fieldset>
+		<div class="submit">
+		  <input type="submit" id="refresh" name="refresh" value="{{{refresh}}}"/>
+		  <input type="submit" id="enable" name="enableAndStart" value="{{{enable}}}"/>
+		  <input type="submit" id="disable" name="disableAndStop" value="{{{disable}}}"/>
+		  <input type="submit" id="restart" name="restart" value="{{{restart}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+	
+	<form id="squeezelite_config" name="squeezelite_config" action="/squeezelite.html" method="post">
+	  <fieldset>
+		<legend>{{{name}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{name_tip}}}">
+			<label for="name" class="label">{{{name}}}</label>
+			<input class="input" type="text" name="name" value="{{{p_name}}}" id="name" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<legend>{{{audio_output}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{device_tip}}}">
+			<label for="device" class="label">{{{device}}}</label>
+			<select name="device" id="device" class="input">
+			  {{#p_devices}}
+			  <option value="{{{device}}}" {{{selected}}}>{{{device}}}</option>
+			  {{/p_devices}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="alsa" class="label">{{{alsa}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{alsa_buffer_tip}}}">
+			<input class="input input-4" type="text" name="alsa_buffer" value="{{{p_alsa_buffer}}}" id="alsa_buffer" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{alsa_period_tip}}}">
+			<input class="input input-4" type="text" name="alsa_period" value="{{{p_alsa_period}}}" id="alsa_period" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{alsa_format_tip}}}">
+			<select class="input input-4" name="alsa_format" id="alsa_format">
+			  {{#p_alsa_format}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_alsa_format}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{alsa_mmap_tip}}}">
+			<select class="input input-4" name="alsa_mmap" id="alsa_mmap">
+			  {{#p_alsa_mmap}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_alsa_mmap}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="rate" class="label">{{{rate}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{rate_tip}}}">
+			<input class="input input-34" type="text" name="rate" value="{{{p_rate}}}" id="rate" />
+		  </div>
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{rate_delay_tip}}}">
+			<input class="input input-4" type="text" name="rate_delay" value="{{{p_rate_delay}}}" id="rate_delay" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="dop" class="label">{{{dop}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{dop_tip}}}">
+			<select class="input input-34" name="dop" id="dop">
+			  {{#p_dop}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_dop}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{dop_delay_tip}}}">
+			<input class="input input-4" type="text" name="dop_delay" value="{{{p_dop_delay}}}" id="dop_delay" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<legend>{{{options}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{vis_tip}}}">
+			<label for="vis" class="label">{{{vis}}}</label>
+			<input class="input-check" type="checkbox" name="vis" value="true" {{{p_vis_checked}}} id="vis"/>
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="resample" class="label">{{{resample}}}</label>
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{resample_tip}}}">
+			<input class="input-check" type="checkbox" name="resample" value="true" {{{p_resample_checked}}} id="resample"
+				   onclick="javascript:show_resample('resample', 'resample_fieldset', 'context-resample');" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{advanced_tip}}}">
+			<label for="adv" class="label">{{{advanced}}}</label>
+			<input class="input-check" type="checkbox" name="advanced" value="true" {{{p_advanced}}} id="adv"
+				   onclick="javascript:show_advanced('adv','advanced_fieldset','log', 'context-advanced');" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset id="resample_fieldset" {{^p_resample}} style="display: none" {{/p_resample}}>
+		<legend>{{{resample}}}</legend>
+		<div class="entry">
+		  <label for="resample_quality" class="label">{{{resample_recipe}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_quality_tip}}}">
+			<select class="input input-3" name="resample_quality" id="resample_quality" >
+			  {{#p_resample_quality}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_resample_quality}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_filter_tip}}}">
+			<select class="input input-3" name="resample_filter" id="resample_filter">
+			  {{#p_resample_filter}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_resample_filter}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_steep_tip}}}">
+			<select class="input input-3" name="resample_steep" id="resample_filter">
+			  {{#p_resample_steep}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_resample_steep}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="resample_flags" class="label">{{{resample_options}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_flags_tip}}}">
+			<input class="input input-3" type="text" name="resample_flags" value="{{{p_resample_flags}}}" 
+				   placeholder="{{{flags}}}" id="resample_flags" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_attenuation_tip}}}">
+			<input class="input input-3" type="text" name="resample_attenuation" value="{{{p_resample_attenuation}}}" 
+				   placeholder="{{{attenuation}}}" id="resample_attenuation" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_precision_tip}}}">
+			<input class="input input-3" type="text" name="resample_precision" value="{{{p_resample_precision}}}" 
+				   placeholder="{{{precision}}}" id="resample_precision" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="resample_end" class="label">&nbsp;</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_end_tip}}}">
+			<input class="input input-3" type="text" name="resample_end" value="{{{p_resample_end}}}" 
+				   placeholder="{{{pass_end}}}" id="resample_end" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_start_tip}}}">
+			<input class="input input-3" type="text" name="resample_start" value="{{{p_resample_start}}}" 
+				   placeholder="{{{stop_start}}}" id="resample_start" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{resample_phase_tip}}}">
+			<input class="input input-3" type="text" name="resample_phase" value="{{{p_resample_phase}}}" 
+				   placeholder="{{{phase}}}" id="resample_phase" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="resample_async" class="label">{{{async}}}</label>
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{resample_async_tip}}}">
+			<input class="input-check" type="checkbox" name="resample_async" value="true" {{{p_resample_async_checked}}}
+				   id="resample_async" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <label for="resample_exception" class="label">{{{exception}}}</label>
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{resample_exception_tip}}}">
+			<input class="input-check" type="checkbox" name="resample_exception" value="true" {{{p_resample_exception_checked}}}
+				   id="resample_exception" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset id="advanced_fieldset" {{^p_advanced}} style="display: none" {{/p_advanced}}>
+		<legend>{{{advanced}}}</legend>
+		<div class="entry">
+		  <label for="loglevel" class="label">{{{loglevel}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{loglevel_slimproto_tip}}}">
+			<select class="input input-4" name="loglevel_slimproto" id="loglevel_slimproto">
+			  {{#p_loglevel_slimproto}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_loglevel_slimproto}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{loglevel_stream_tip}}}">
+			<select class="input input-4" name="loglevel_stream" id="loglevel_stream">
+			  {{#p_loglevel_stream}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_loglevel_stream}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{loglevel_decode_tip}}}">
+			<select class="input input-4" name="loglevel_decode" id="loglevel_decode">
+			  {{#p_loglevel_decode}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_loglevel_decode}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{loglevel_output_tip}}}">
+			<select class="input input-4" name="loglevel_output" id="loglevel_output">
+			  {{#p_loglevel_output}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_loglevel_output}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{logfile_tip}}}">
+			<label for="logfile" class="label">{{{logfile}}}</label>
+			<input class="input" type="text" name="logfile" value="{{{p_logfile}}}" id="logfile" />
+		  </div>
+		</div>
+		<!--div class="entry">
+		  <label for="buffer" class="label">{{{buffer}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{buffer_stream_tip}}}">
+			<input class="input input-2" type="text" name="buffer_stream" value="{{{p_buffer_stream}}}" id="buffer_stream" />
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{buffer_output_tip}}}">
+			<input class="input input-2" type="text" name="buffer_output" value="{{{p_buffer_output}}}" id="buffer_output" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{codec_tip}}}">
+			<label for="codec" class="label">{{{codec}}}</label>
+			<input class="input" type="text" name="codec" value="{{{p_codec}}}" id="codec" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{priority_tip}}}">
+			<label for="priority" class="label">{{{priority}}}</label>
+			<input class="input" type="text" name="priority" value="{{{p_priority}}}" id="priority" />
+		  </div>
+		</div-->
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{mac_tip}}}">
+			<label for="mac" class="label">{{{mac}}}</label>
+			<input class="input" type="text" name="mac" value="{{{p_mac}}}" id="mac" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{server_tip}}}">
+			<label for="server" class="label">{{{server}}}</label>
+			<input class="input" type="text" name="server" value="{{{p_server}}}" id="server" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{other_tip}}}">
+			<label for="other" class="label">{{{other}}}</label>
+			<input class="input" type="text" name="other" value="{{{p_other}}}" id="other" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <!-- maintain excluded codecs when saving, this is not edittable -->
+		  <input type="hidden" name="exclude" value="{{{p_exclude}}}"/>
+		  <input type="reset" name="reset" value="{{{reset}}}"/>
+		  <input type="submit" id="squeezelite_config_save" name="squeezelite_config_save" value="{{{save}}}"/>
+		  <input type="submit" id="squeezelite_config_saverestart" name="squeezelite_config_saverestart" value="{{{save_restart}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+	
+  </div>
+	
+</div>
+  
+<div id="log" {{^p_advanced}} style="display: none" {{/p_advanced}}>
+  <textarea class="log" name="status" readonly="readonly" id="squeezelite_status" onclick="javascript:startstop_log();">{{{p_log}}}</textarea>
+</div>
+

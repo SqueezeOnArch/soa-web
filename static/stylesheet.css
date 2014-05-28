@@ -1,0 +1,313 @@
+body {
+    margin: 10px 20px;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p, ul, ol {
+    margin: 0 0 0.5em;
+}
+
+h1 {
+    font-size: 18pt;
+    margin: 0.5em 0 0;
+}
+
+h2 {
+    font-size: 16pt;
+}
+
+h3 {
+    font-size: 13pt;
+}
+
+h4 {
+    font-size: 12pt;
+}
+
+h5 {
+    font-size: 11pt;
+}
+
+p {
+    font-size: 11pt
+}
+
+ol {
+    margin: 0;
+    padding: 0 0 0 2em;
+    text-indent: 0;
+    /* list-style: none; */
+}
+
+ul {
+    margin: 0;
+    padding: 0 0 0 2em;
+    text-indent: 0;
+    /* list-style: none; */
+}
+
+li {
+    margin: 0;
+    padding: 0 0 0.25em;
+    text-indent: 0;
+    font-size: 80%;
+}
+
+pre {
+    /* text-indent: 0.25em; */
+    margin-left: 1em;
+    margin-right: 1em;
+    text-indent: 0;
+    /* width: 90%; */
+    font-size: 90%;
+    /* color: white;
+    background: black; */
+}
+
+.terminal {
+    color: white;
+    background: black;
+}
+
+br.separator {
+    margin: 0;
+    padding: 0;
+    clear: both;
+}
+
+a img {
+    border: 0 none;
+}
+
+.container {
+    padding: 10px;
+    margin: 0 0 10px;
+}
+
+.col20 {
+    float: left;
+    width: 20%;
+}
+
+.col25 {
+    float: left;
+    width: 25%;
+}
+
+.curved {
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -khtml-border-radius: 10px;
+}
+
+.navigation {
+    background: #eeeeee;
+    margin: 0 0 10px;
+    padding: 0;
+}
+
+.navigation span {
+    float: left;
+}
+
+.help-title,
+.navigation span a,
+.navigation div a {
+    display: block;
+    padding: 10px;
+    font-weight: bold;
+    text-shadow: 1px 1px 1px #fff;
+}
+
+.navigation span a:link,
+.navigation span a:visited,
+.navigation span a:hover,
+.navigation span a:active,
+.navigation div a:link,
+.navigation div a:visited,
+.navigation div a:hover,
+.navigation div a:active {
+    color: #666;
+    text-decoration: none;
+}
+
+.navigation span#nav-help {
+    float: right;
+    margin-right: 0;
+}
+
+.pull-center {
+  float: center;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.errorMessage {
+	font-weight: bold;
+	color: red;
+	list-style: square;
+}
+
+.max-width {
+  width: 100%;
+}
+
+.size-300px  {
+  width: 300px;
+}
+
+.size-225px  {
+  width: 225px;
+}
+
+.size-200px  {
+  width: 200px;
+}
+
+.size-150px  {
+  width: 150px;
+}
+
+.size-100px  {
+  width: 100px;
+}
+
+.size-75px  {
+  width: 75px;
+}
+
+.size-50px  {
+  width: 50px;
+}
+
+.copyright {
+  color: #666;
+  font-size: 8pt;
+  font-weight: bold;
+}
+
+.language {
+  font-size: 8pt;
+}
+
+.faqTop {
+  font-size: smaller;
+  font-weight: bold;
+}
+
+.title-block {
+  font-size: 16pt;
+  font-weight: bold;
+  line-height: 2em;
+}
+.title {
+  margin: 10px;
+}
+.title-image {
+  float: left;
+}
+fieldset {
+  width: 480px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  margin: 5px;
+  padding: 5px;
+}
+.noborder {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+legend {
+  font-weight: bold;
+  text-align: center;
+  min-width: 120px;
+  background-color: #eeeeee;
+  color: #666;
+  border-radius: 5px;
+  padding: 5px 5px;
+}
+.entry {
+  margin: 2px;
+}
+.entry-nomargin {
+}
+.entry-indent {
+  margin: 0  0  0 100px;
+  width: 380px;
+  word-wrap: break-word;
+}
+.smaller {
+  font-size: smaller;
+}
+.label {
+  float: left;
+  text-align: right;
+  width: 140px;
+  padding-right: 10px;
+  white-space: nowrap;
+}
+.input {
+  width: 317px;
+  text-align: left;
+  white-space: nowrap;
+  font-weight: light;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+.input-check {
+}
+.input-4 {
+  width: 76px;
+}
+.input-3 {
+  width: 102px;
+}
+.input-2 {
+  width: 156px;
+}
+.input-34 {
+  width: 237px;
+}
+.color {
+  color: blue;
+}
+.submit {
+  text-align: right;
+}
+.help-text {
+  padding: 10px;
+  font-size: smaller;
+}
+li li {
+  margin: 0;
+  padding: 0 0 0.25em;
+  text-indent: 0;
+  font-size: 100%;
+}
+.config {
+  width: 50%;
+}
+.help {
+  width: 50%;
+  float: right;
+  background: #eeeeee;
+  margin: 0 0 10px;
+  padding: 0;
+}
+.log {
+  width: 98%;
+  height: 200px;
+  margin: 5px;
+  padding: 5px;
+}
+

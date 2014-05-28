@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+	<title>{{{brand_name}}} Web Configuration</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link href="static/stylesheet.css" rel="stylesheet" type="text/css" media="all" />
+	<link href="static/simptip-mini.css" rel="stylesheet" type="text/css" />
+	<link href="static/favicon.ico" rel="icon" type="image/x-icon" />
+	<link href="static/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+</head>
+
+<body onload="javascript:check_help()">
+
+<script type="text/javascript">
+function get_help_cookie() {
+  var cookies = document.cookie.split(';');
+  var value;
+  for (var i = 0; i < cookies.length; i++) {
+    if (cookies[i].split('=')[0].trim() == "squeeze-web-gui-help") {
+      value = cookies[i].split('=')[1].trim();
+    }
+  }
+  return value;
+}
+function set_help_cookie(value) {
+  document.cookie = "squeeze-web-gui-help" + "=" + value + "; path=/";
+}
+function toggle_help() {
+  var state = get_help_cookie()
+  var el = document.getElementById('context');
+  if (state == "on") {				  
+	el.style.display = 'none';
+    state = "off";
+  } else {
+	el.style.display = '';
+    state = "on";
+  }
+  set_help_cookie(state);
+}
+function check_help() {
+  var state = get_help_cookie()
+  var el = document.getElementById('context');
+  if (state == "on") {				  
+	el.style.display = '';
+  }
+}
+</script>  
+
+<div class="navigation curved container">
+	<span id="nav-home">
+		<a href="/index.html">{{{home}}}</a>
+	</span> 
+	<span id="nav-system">
+		<a href="/system.html">{{{system}}}</a>
+	</span> 
+	{{#p_wired}}
+	<span id="nav-wired">
+		<a href="/network-wired.html">{{{ethernet}}}</a>
+	</span> 
+	{{/p_wired}}
+	{{#p_wireless}}
+	<span id="nav-wireless">
+		<a href="/network-wireless.html">{{{wireless}}}</a>
+	</span> 
+	{{/p_wireless}}
+	<span id="nav-squeezelite">
+		<a href="/squeezelite.html">{{{squeezelite}}}</a>
+	</span> 
+	<span id="nav-squeezeserver">
+		<a href="/squeezeserver.html">{{{squeezeserver}}}</a>
+	</span> 
+	<span id="nav-storage">
+		<a href="/storage.html">{{{storage}}}</a>
+	</span>
+	<span id="nav-shutdown">
+		<a href="/shutdown.html">{{{shutdown}}}</a>
+	</span> 
+	{{#context}}
+	<span id="nav-help">
+		<a href="#" onclick="javascript:toggle_help()">{{{help}}}</a>
+	</span>
+	{{/context}}
+	<br class="separator" />
+</div>

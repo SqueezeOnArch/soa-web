@@ -1,0 +1,66 @@
+<div class="title-block">
+  <a href="/squeezeserver.html">
+	<div class="title-image">
+	  <img src="static/speaker.png" width="64" height="64" 
+	       alt="Squeeze Server" /> 
+	</div>
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+  </a>
+  <div class="title">{{{title}}}</div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+<div>
+
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	</div>
+  </div>
+  {{{/context}}}
+
+  <div class="config">
+
+	<fieldset>
+	  <legend>{{{status}}}</legend>
+	  <div class="entry-nomargin">
+		<div class="label">{{{status}}}</div>
+		<div class="input"><b>{{{p_status}}}</b></div>
+	  </div>
+	  <div class="entry-nomargin">
+		<div class="label">{{{active}}}</div>
+		<div class="input"><b>{{{p_active}}}</b></div>
+	  </div>
+	</fieldset>
+
+	<form id="squeezeserver_service" name="squeezeserver_service" action="/squeezeserver.html" method="post">
+	  <fieldset>
+		<div class="submit">
+		  <input type="submit" id="refresh" name="refresh" value="{{{refresh}}}"/>
+		  <input type="submit" id="enable" name="enableAndStart" value="{{{enable}}}"/>
+		  <input type="submit" id="disable" name="disableAndStop" value="{{{disable}}}"/>
+		  <input type="submit" id="restart" name="restart" value="{{{restart}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+
+	<fieldset>
+	  <legend>{{{configuration}}}</legend>
+	  <div class="submit">
+		<a href="{{{p_server_url}}}" target="blank_"><button>{{{web_interface}}}</button></a>
+	  </div>
+	</fieldset>
+
+  </div>
+
+</div>
+

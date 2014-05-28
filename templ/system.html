@@ -1,0 +1,91 @@
+<div class="title-block">
+  <a href="/system.html">
+	<div class="title-image">
+	  <img src="static/tools.png" width="64" height="64" alt="System" /> 
+	</div>
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+  </a>
+  <div class="title">{{{title}}}</div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+<div>
+  
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	</div>
+  </div>
+  {{{/context}}}
+  
+  <div class="config">
+	
+	<form id="system" name="system" action="/system.html" method="post">
+	  <fieldset>
+		<legend>{{{hostname}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{hostname_tip}}}">
+			<label for="hostname" class="label">{{{hostname}}}</label>
+			<input class="input" type="text" name="hostname" value="{{{p_hostname}}}" id="hostname" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<legend>{{{location}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{timezone_tip}}}">
+			<label for="timezone" class="label">{{{timezone}}}</label>
+			<select class="input" name="timezone" id="timezone">
+			  {{#p_zones}}
+			  <option value="{{{zone}}}" {{{selected}}}>{{{zone}}}</option>
+			  {{/p_zones}}
+			</select>
+		  </div>
+		</div>
+		<!--div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{locale_tip}}}">
+			<label for="locale" class="label">{{{locale}}}</label>
+			<select class="input" name="locale" id="locale">
+			  {{#p_locales}}
+			  <option value="{{{loc}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_locales}}
+			</select>
+		  </div>
+		</div-->
+	  </fieldset>
+	  <!--fieldset>
+		<legend>{{{samba}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{nb_name_tip}}}">
+			<label for="nb_name" class="label">{{{nb_name}}}</label>
+			<input class="input" type="text" name="nb_name" value="{{{p_nb_name}}}" id="nb_name" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{nb_group_tip}}}">
+			<label for="nb_group" class="label">{{{nb_group}}}</label>
+			<input class="input" type="text" name="nb_group" value="{{{p_nb_group}}}" id="nb_group" />
+		  </div>
+		</div>
+	  </fieldset-->
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="reset" name="reset" value="{{{reset}}}"/>
+		  <input type="submit" id="system" name="system" value="{{{save}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+
+  </div>	
+
+</div>
+

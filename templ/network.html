@@ -1,0 +1,192 @@
+<script type="text/javascript">
+function show(track, show) {
+  if (document.getElementById(track).checked) {
+    document.getElementById(show).style.display = 'none';
+  } else {
+    document.getElementById(show).style.display = '';
+  }
+}
+</script>
+
+<div class="title-block">
+  <a href="/network-{{p_iftype}}.html">
+	<div class="title-image">
+	  <img src="static/network.png" width="64" height="64" alt="Network" /> 
+	</div>
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+  </a>
+  <div class="title">
+	{{#p_is_wlan}}{{{title_wlan}}}{{/p_is_wlan}}
+	{{^p_is_wlan}}{{{title_eth}}}{{/p_is_wlan}}
+  </div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+{{#p_error}}
+<ul class="errorMessage">
+  <li><span>{{{p_error}}}</span></li>
+</ul>
+{{/p_error}}
+
+<div>
+
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	  {{#p_is_wlan}}
+	  {{{context_wifi}}}
+	  {{/p_is_wlan}}
+	</div>
+  </div>
+  {{{/context}}}
+
+  <div class="config">
+
+	<form id="network_config" name="network_config" action="/network-{{p_iftype}}.html" method="post">
+	  <fieldset>
+		<legend>{{{interface}}}</legend>
+		<div class="entry">
+		  <div class="label">{{{name}}}</div>
+		  <div class="input">{{{p_device}}}</div>
+		</div>
+		<div class="entry">
+		  <div class="label">{{{type}}}</div>
+		  <div class="input">{{{p_type}}}</div>
+		</div>
+		<div class="entry">
+		  <div class="label">{{{state}}}</div>
+		  <div class="input">{{{p_state}}}</div>
+		</div>
+		<div class="entry">
+		  <div class="label">{{{ipv4}}}</div>
+		  <div class="input">{{{p_ipv4}}}</div>
+		</div>
+		{{#p_is_wlan}}
+		<div class="entry">
+		  <div class="label">{{{wpa_state}}}</div>
+		  <div class="input">{{{p_wpa_state}}}</div>
+		</div>
+		{{/p_is_wlan}}
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{on_boot_tip}}}">
+			<label for="onboot" class="label">{{{on_boot}}}</label>
+			<input class="input-check" type="checkbox" name="onboot" value="true" {{{p_onboot_checked}}} id="onboot"/>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{dhcp_tip}}}">
+			<label for="dhcp" class="label">{{{dhcp}}}</label>
+			<input class="input-check" type="checkbox" name="dhcp" value="true" {{{p_dhcp_checked}}} id="dhcp" 
+				   onclick="javascript:show('dhcp', 'static');"/>
+		  </div>
+		</div>
+		{{#p_is_wlan}}
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{regdomain_tip}}}">
+			<label for="regdomain" class="label">{{{regdomain}}}</label>
+			<select class="input" name="regdomain" id="regdomain">
+			  {{/p_is_wlan}}
+			  {{#p_regdomains}}
+			  <option value="{{{id}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_regdomains}}
+			  {{#p_is_wlan}}
+			</select>
+		  </div>
+		</div>
+		{{#p_is_wlan}}
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{essid_tip}}}">
+			<label for="essid" class="label">{{{essid}}}</label>
+			<select class="input" name="essid" id="essid">
+			  {{/p_is_wlan}}
+			  {{#p_essids}}
+			  <option value="{{{id}}}" {{{selected}}}>{{{id}}}</option>
+			  {{/p_essids}}
+			  {{#p_is_wlan}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{other_ssid_tip}}}">
+			<label for="other_ssid" class="label">&nbsp;</label>
+			<input class="input" type="text" name="other_ssid" value="{{{p_other_ssid}}}" id="other_ssid" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{wpa_psk_tip}}}">
+			<label for="wpa_psk" class="label">{{{wpa_psk}}}</label>
+			<input class="input" type="password" name="wpa_psk" value="{{{p_wpa_psk}}}" id="wpa_psk" />
+		  </div>
+		</div>
+		{{/p_is_wlan}}
+	  </fieldset>
+	  <fieldset id="static" {{#p_dhcp_checked}} style="display: none" {{/p_dhcp_checked}}>
+		<legend>{{{static}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{ipaddr_tip}}}">
+			<label for="hostname" class="label">{{{ipaddr}}}</label>
+			<input class="input" type="text" name="ipaddr0" value="{{{p_ipaddr0}}}" id="ipaddress" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{netmask_tip}}}">
+			<label for="netmask" class="label">{{{netmask}}}</label>
+			<input class="input" type="text" name="netmask0" value="{{{p_netmask0}}}" id="netmask" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{gateway_tip}}}">
+			<label for="gateway" class="label">{{{gateway}}}</label>
+			<input class="input" type="text" name="gateway0" value="{{{p_gateway0}}}" id="gateway" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{dns1_tip}}}">
+			<label for="dns1" class="label">{{{dns1}}}</label>
+			<input class="input" type="text" name="dns1" value="{{{p_dns1}}}" id="dns1" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{dns2_tip}}}">
+			<label for="dns2" class="label">{{{dns2}}}</label>
+			<input class="input" type="text" name="dns2" value="{{{p_dns2}}}" id="dns1" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{dns3_tip}}}">
+			<label for="dns3" class="label">{{{dns3}}}</label>
+			<input class="input" type="text" name="dns3" value="{{{p_dns3}}}" id="dns1" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{domain_tip}}}">
+			<label for="domain" class="label">{{{domain}}}</label>
+			<input class="input" type="text" name="domain" value="{{{p_domain}}}" id="domain" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" name="refresh" value="{{{refresh}}}"/>
+		  <input type="submit" id="nework_config_save" name="network_config_save" value="{{{save}}}"/>
+		</div>
+		<div class="entry submit">
+		  <input type="submit" id="network_ifdown" name="network_ifdown" value="{{{int_down}}}"/>
+		  <input type="submit" id="network_ifup" name="network_ifup" value="{{{int_up}}}"/>
+		  <input type="submit" id="network_ifdownup" name="network_ifdownup" value="{{{int_downup}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+	
+  </div>
+
+</div>
