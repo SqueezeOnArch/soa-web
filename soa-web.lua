@@ -338,6 +338,8 @@ local LogHandler         = class("LogHandler", turbo.web.RequestHandler)
 
 ------------------------------------------------------------------------------------------
 
+local installProgressFile = "/tmp/soa-install-progress"
+
 -- index.html
 function IndexHandler:get()
 	local lang = self:get_argument('locale', false)
@@ -353,6 +355,12 @@ function IndexHandler:get()
 	local l = t['p_languages']
 	for k, _ in pairs(languages) do
 		l[#l+1] = { lang = k, desc = strings['languages'][k], selected = (k == language and "selected" or "") }
+	end
+
+	local install = io.open(installProgressFile, "r")
+	if install then
+		t['p_prog'] = install:read()
+		install:close()
 	end
 
 	setmetatable(t, { __index = strings['index'] })

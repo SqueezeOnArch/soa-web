@@ -9,6 +9,7 @@ return {
 	['index'] = {
 		title = "Web Configuration",
 		language = "Language",
+		install = "Please wait while Squeeze on Arch is installed on your device.   Current install status: ",
 	},
 	['system'] = {
 		title = "System Configuration",
