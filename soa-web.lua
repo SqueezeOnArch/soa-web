@@ -372,8 +372,6 @@ end
 -- system.html
 local info_files = {
 	hostname       = '/etc/hostname',
-	os_version     = '/etc/csos-release',
-	fedora_version = '/etc/fedora-release',
 }
 
 local localefile  = '/etc/locale.conf'
@@ -480,18 +478,12 @@ function SystemHandler:get()
 end
 
 function SystemHandler:post()
-	local tmpFile     = cfg.tmpdir .. '/tmpfile.txt-luagui'
+	local tmpFile = cfg.tmpdir .. '/tmpfile.txt-luagui'
 
 	local hostname = self:get_argument("hostname", false)
 	if hostname then
 		log.debug("setting hostname to " .. hostname)
-		local file = io.open(tmpFile, "w")
-		if file then
-			file:write(hostname .. "\n")
-			file:close()
-			util.execute("sudo cp /etc/hostname " .. tmpFile)
-			util.execute("rm " .. tmpFile)
-		end
+		util.execute("sudo hostnamectl set-hostname " .. hostname)
 	end
 	
 	local newzone = self:get_argument("timezone", false)
@@ -897,7 +889,7 @@ function StorageHandler:post()
 		end
 		
 		if new_remote then
-			opts = opts or "defaults,_netdev"
+			opts = opts or "defaults,noauto,x-systemd.automount,_netdev"
 			
 			if type == 'cifs' then
 				-- for cifs we must make sure that either credentials or guest is added to the option string else mount.cifs may block
