@@ -212,7 +212,7 @@ function set(c)
 			end
 		end
 
-		outconf:write("# created by squeeze-web-gui-lua " .. os.date() .. "\n")
+		outconf:write("# created by soa-web " .. os.date() .. "\n")
 
 		if c.name     then outconf:write('NAME="-n ' .. c.name .. '"\n') end
 		if c.device   then outconf:write('AUDIO_DEV="-o ' .. c.device .. '"\n') end

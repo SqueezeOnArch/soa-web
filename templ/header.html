@@ -18,14 +18,14 @@ function get_help_cookie() {
   var cookies = document.cookie.split(';');
   var value;
   for (var i = 0; i < cookies.length; i++) {
-    if (cookies[i].split('=')[0].trim() == "squeeze-web-gui-help") {
+    if (cookies[i].split('=')[0].trim() == "soa-web-help") {
       value = cookies[i].split('=')[1].trim();
     }
   }
   return value;
 }
 function set_help_cookie(value) {
-  document.cookie = "squeeze-web-gui-help" + "=" + value + "; path=/";
+  document.cookie = "soa-web-help" + "=" + value + "; path=/";
 }
 function toggle_help() {
   var state = get_help_cookie()

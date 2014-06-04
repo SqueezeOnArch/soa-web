@@ -56,11 +56,11 @@ function show(track, show) {
 		<legend>{{{interface}}}</legend>
 		<div class="entry">
 		  <div class="label">{{{name}}}</div>
-		  <div class="input">{{{p_device}}}</div>
+		  <div class="input">{{{p_interface}}}</div>
 		</div>
 		<div class="entry">
 		  <div class="label">{{{type}}}</div>
-		  <div class="input">{{{p_type}}}</div>
+		  <div class="input">{{{p_connection}}}</div>
 		</div>
 		<div class="entry">
 		  <div class="label">{{{state}}}</div>
@@ -91,13 +91,13 @@ function show(track, show) {
 		</div>
 		{{#p_is_wlan}}
 		<div class="entry">
-		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{regdomain_tip}}}">
-			<label for="regdomain" class="label">{{{regdomain}}}</label>
-			<select class="input" name="regdomain" id="regdomain">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{country_tip}}}">
+			<label for="country" class="label">{{{country}}}</label>
+			<select class="input" name="country" id="country">
 			  {{/p_is_wlan}}
-			  {{#p_regdomains}}
+			  {{#p_countries}}
 			  <option value="{{{id}}}" {{{selected}}}>{{{desc}}}</option>
-			  {{/p_regdomains}}
+			  {{/p_countries}}
 			  {{#p_is_wlan}}
 			</select>
 		  </div>
@@ -122,9 +122,9 @@ function show(track, show) {
 		  </div>
 		</div>
 		<div class="entry">
-		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{wpa_psk_tip}}}">
-			<label for="wpa_psk" class="label">{{{wpa_psk}}}</label>
-			<input class="input" type="password" name="wpa_psk" value="{{{p_wpa_psk}}}" id="wpa_psk" />
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{psk_tip}}}">
+			<label for="psk" class="label">{{{psk}}}</label>
+			<input class="input" type="password" name="psk" value="{{{p_psk}}}" id="psk" />
 		  </div>
 		</div>
 		{{/p_is_wlan}}
@@ -132,21 +132,21 @@ function show(track, show) {
 	  <fieldset id="static" {{#p_dhcp_checked}} style="display: none" {{/p_dhcp_checked}}>
 		<legend>{{{static}}}</legend>
 		<div class="entry">
-		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{ipaddr_tip}}}">
-			<label for="hostname" class="label">{{{ipaddr}}}</label>
-			<input class="input" type="text" name="ipaddr0" value="{{{p_ipaddr0}}}" id="ipaddress" />
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{address_tip}}}">
+			<label for="address" class="label">{{{address}}}</label>
+			<input class="input" type="text" name="address" value="{{{p_address}}}" id="address" />
 		  </div>
 		</div>
 		<div class="entry">
-		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{netmask_tip}}}">
-			<label for="netmask" class="label">{{{netmask}}}</label>
-			<input class="input" type="text" name="netmask0" value="{{{p_netmask0}}}" id="netmask" />
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{mask_tip}}}">
+			<label for="mask" class="label">{{{mask}}}</label>
+			<input class="input" type="text" name="mask" value="{{{p_mask}}}" id="netmask" />
 		  </div>
 		</div>
 		<div class="entry">
 		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{gateway_tip}}}">
 			<label for="gateway" class="label">{{{gateway}}}</label>
-			<input class="input" type="text" name="gateway0" value="{{{p_gateway0}}}" id="gateway" />
+			<input class="input" type="text" name="gateway" value="{{{p_gateway}}}" id="gateway" />
 		  </div>
 		</div>
 		<div class="entry">

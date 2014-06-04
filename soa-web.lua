@@ -29,7 +29,7 @@ log   = turbo.log
 util  = {}
 cfg   = {}
 
---local NetworkConfig     = require('soa-web.NetworkConfig')
+local NetworkConfig     = require('soa-web.NetworkConfig')
 local SqueezeliteConfig = require('soa-web.SqueezeliteConfig')
 local StorageConfig     = require('soa-web.StorageConfig')
 
@@ -328,7 +328,7 @@ end
 
 local IndexHandler       = class("IndexHandler", PageHandler)
 local SystemHandler      = class("SystemHandler", PageHandler)
---local NetworkHandler     = class("NetworkHandler", PageHandler)
+local NetworkHandler     = class("NetworkHandler", PageHandler)
 local SqueezeliteHandler = class("SqueezeliteHandler", PageHandler)
 local SqueezeserverHandler = class("SqueezeserverHandler", PageHandler)
 local StorageHandler     = class("StorageHandler", PageHandler)
@@ -338,7 +338,7 @@ local LogHandler         = class("LogHandler", turbo.web.RequestHandler)
 
 ------------------------------------------------------------------------------------------
 
-local installProgressFile = "/tmp/soa-install-progress"
+local installProgressFile = cfg.tmpdir .. "/soa-install-progress"
 
 -- index.html
 function IndexHandler:get()
@@ -525,7 +525,6 @@ end
 
 ------------------------------------------------------------------------------------------
 
---[[
 -- network.html
 function NetworkHandler:_response(type, err)
 	local int = (type == "wired" and cfg.wired or cfg.wireless)
@@ -540,14 +539,15 @@ function NetworkHandler:_response(type, err)
 	t['p_iftype'] = type
 	t['p_is_wlan'] = is_wireless
 	t['p_onboot_checked'] = config.onboot and "checked" or ""
-	t['p_dhcp_checked']   = config.bootproto == "dhcp" and "checked" or nil
-	t['p_ipv4'] = strings['network']['none']
+	t['p_dhcp_checked']   = config.dhcp and "checked" or nil
+	t['p_ipv4'] =  strings['network']['none']
+	t['p_state'] = strings['network']['none']
 
 	local status = util.capture("ifconfig " .. int)
 	for line in string.gmatch(status, "(.-)\n") do
 		local state = string.match(line, "flags=%d+<(.-),")
 		local ipv4 = string.match(line, "inet (.-) ")
-		if state then
+		if state and state ~= "BROADCAST" then
 			t['p_state'] = state
 		end
 		if ipv4 then
@@ -562,7 +562,7 @@ function NetworkHandler:_response(type, err)
 	if is_wireless then
 		local scan, status = NetworkConfig.scan_wifi()
 
-		t['p_wpa_state'] = status['wpa_state']
+		t['p_wpa_state'] = status['wpa_state'] or strings['network']['none']
 
 		t['p_essids'] = {}
 		local essids = {}
@@ -577,10 +577,10 @@ function NetworkHandler:_response(type, err)
 		-- add option to add private network
 		table.insert(t['p_essids'], { id = strings['network']['add_private'] })
 
-		t['p_regdomains'] = { { id = "", desc = "" } }
+		t['p_countries'] = { { id = "", desc = "" } }
 		for _, v in ipairs(NetworkConfig.regions()) do
-			table.insert(t['p_regdomains'], { id = v, selected = (v == config.regdomain and "selected" or ""), 
-											  desc = strings['network'][v] or v})
+			table.insert(t['p_countries'], { id = v, selected = (v == config.country and "selected" or ""), 
+											 desc = strings['network'][v] or v})
 		end
 	end
 
@@ -631,17 +631,17 @@ function NetworkHandler:post(type)
 
 	if self:get_argument("network_ifdown", false) or self:get_argument("network_ifdownup", false) then
 		log.debug("ifdown " .. int)
-		util.execute("sudo ifdown " .. int)
+		local service = is_wireless and "auto" or "ifplugd"
+		util.execute("sudo systemctl stop netctl-" .. (is_wireless and "auto" or "ifplugd") .. "@" .. int .. ".service")
 	end
 	if self:get_argument("network_ifup", false) or self:get_argument("network_ifdownup", false) then
 		log.debug("ifup " .. int)
-		util.execute("sudo ifup " .. int)
+		local service = is_wireless and "auto" or "ifplugd"
+		util.execute("sudo systemctl start netctl-" .. (is_wireless and "auto" or "ifplugd") .. "@" .. int .. ".service")
 	end
 
 	self:_response(type)
 end
-
---]]
 
 ------------------------------------------------------------------------------------------
 
@@ -1039,7 +1039,7 @@ turbo.web.Application({
     { "^/$", IndexHandler },
     { "^/index%.html$", IndexHandler },
     { "^/system%.html$", SystemHandler },
---    { "^/network%-(.-)%.html$", NetworkHandler },
+    { "^/network%-(.-)%.html$", NetworkHandler },
     { "^/squeezelite%.html$", SqueezeliteHandler },
     { "^/squeezeserver%.html$", SqueezeserverHandler },
     { "^/storage%.html$", StorageHandler },

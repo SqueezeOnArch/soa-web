@@ -123,22 +123,22 @@ function set(mounts)
 		-- copy over file excluding portion marked as ours
 		local ours = false
 		for line in fstab:lines() do
-			if string.match(line, "^# start added by squeeze%-web%-gui") then
+			if string.match(line, "^# start added by soa%-web%") then
 				ours = true
-			elseif string.match(line, "^# end added by squeeze%-web%-gui") then
+			elseif string.match(line, "^# end added by soa%-web%") then
 				ours = false
 			elseif not ours then
 				tmp:write(line .. "\n")
 			end
 		end
 		-- add our new section
-		tmp:write("# start added by squeeze-web-gui-lua\n")
+		tmp:write("# start added by soa-web\n")
 		for _, v in ipairs(mounts) do
 			if v.perm then
 				tmp:write(v.spec .. "\t" .. v.mountp .. "\t" .. v.type .. "\t" .. (v.opts or "defaults") .. "\t0\t0\n")
 			end
 		end
-		tmp:write("# end added by squeeze-web-gui-lua\n")
+		tmp:write("# end added by soa-web\n")
 
 		tmp:close()
 		fstab:close()
@@ -164,7 +164,7 @@ function cred_file(mountp, user, pass, domain)
 	
 	local tmp = io.open(tmpFile, "w")
 	if tmp then
-		tmp:write("# Created by squeez-web-gui-lua\n")
+		tmp:write("# Created by soa-web\n")
 		tmp:write("username=" .. (user or "") .. "\n")
 		tmp:write("password=" .. (pass or "") .. "\n")
 		tmp:write("domain=" .. (domain or "") .. "\n")
