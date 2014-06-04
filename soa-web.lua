@@ -571,7 +571,7 @@ function NetworkHandler:_response(type, err)
 			essids[v.ssid] = true
 		end
 		-- put previous selection on top of list if not already there
-		if not essids[config.essid] then
+		if not essids[config.essid] and config.essid ~= "XXXXXXXX" then
 			table.insert(t['p_essids'], 1, { id = config.essid, selected = "selected" })
 		end
 		-- add option to add private network

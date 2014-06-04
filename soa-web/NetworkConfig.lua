@@ -155,8 +155,8 @@ function set(config, int, is_wireless)
 		
 		if is_wireless then
 			conf:write("Security=wpa\n")
-			conf:write("ESSID='" .. (config.essid or "XXXXXX") .. "'\n")
-			conf:write("Key='" .. (config.psk or "XXXXXX") .. "'\n")
+			conf:write("ESSID='" .. (config.essid or "XXXXXXXX") .. "'\n")
+			conf:write("Key='" .. (config.psk or "XXXXXXXX") .. "'\n")
 			if config.country then
 				conf:write("Country='" .. config.country .. "'\n")
 			end
