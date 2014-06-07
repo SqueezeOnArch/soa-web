@@ -55,15 +55,15 @@ local languages = { EN = true }
 
 -- skin branding
 local skin = {
-	brand_name = "Open Squeeze",
-	logo_small = "static/os-logo-146x50.png",
+	brand_name = "Squeeze on Arch",
+	logo_small = "static/soa-logo-100x65.jpg",
 	logo_small_alt = "Logo (small)",
-	logo_small_width = "146",
-	logo_small_height = "50",
-	logo_large = "static/os-logo-541x288.png",
+	logo_small_width = "100",
+	logo_small_height = "65",
+	logo_large = "static/soa-logo-533x342.jpg",
 	logo_large_alt = "Logo (large)",
-	logo_large_width = "541",
-	logo_large_height = "288",
+	logo_large_width = "533",
+	logo_large_height = "342",
 }
 
 ------------------------------------------------------------------------------------------
