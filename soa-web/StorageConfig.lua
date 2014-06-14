@@ -123,9 +123,9 @@ function set(mounts)
 		-- copy over file excluding portion marked as ours
 		local ours = false
 		for line in fstab:lines() do
-			if string.match(line, "^# start added by soa%-web%") then
+			if string.match(line, "^# start added by soa%-web") then
 				ours = true
-			elseif string.match(line, "^# end added by soa%-web%") then
+			elseif string.match(line, "^# end added by soa%-web") then
 				ours = false
 			elseif not ours then
 				tmp:write(line .. "\n")
