@@ -1,0 +1,136 @@
+<script type="text/javascript">
+var log_xhr;
+function update_log(id, url, lines) {
+  var xhr = new XMLHttpRequest();
+  if (xhr) {
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState == 3) {
+        var lines = xhr.responseText.split('\n')
+        if (lines.length > lines) {
+          lines.splice(0, lines.length - lines)
+        }
+        var textArea = document.getElementById(id);
+        textArea.textContent = lines.join('\n');
+        textArea.scrollTop = textArea.scrollHeight;
+      }
+    }
+    xhr.open("GET", url, true);
+    xhr.send();
+    return xhr;
+  }
+}
+function startstop_log(action) {
+  if (!action) {
+    action = log_xhr ? 'stop' : 'start';
+  }
+  if (action == 'start' && !log_xhr) {
+    log_xhr = update_log('update_status', 'soa-build.log?stream=1&lines=1', 1000);
+  } else if (action == 'stop' && log_xhr) {
+    log_xhr.abort();
+    log_xhr = null;
+  }
+}
+function toggle(check1, check2) {
+  element1 = document.getElementById(check1);
+  element2 = document.getElementById(check2);
+  if (element1.checked) {
+    element2.checked = false;
+  }
+}
+window.onload = function() {
+  startstop_log('start');
+}
+</script>
+<div class="title-block">
+  <a href="/update.html">
+	<div class="title-image">
+	  <img src="{{{logo_small}}}" alt="{{{brand_name}}} {{{logo_small_alt}}}" 
+		   width="{{{logo_small_width}}}" height="{{{logo_small_height}}}" />
+	</div>
+	<div class="title-image">
+	  <img src="static/status.png" width="64" height="64" alt="Update" /> 
+	</div>
+  </a>
+  <div class="title">{{{title}}}</div>
+</div>
+
+<div style="clear: both;">
+</div>
+
+<div>
+  
+  {{{#context}}}
+  <div class="help curved container" id="context" style="display: none">
+	<div class="help-title">
+	  {{{help}}}
+	</div>
+	<div class="help-text">
+	  {{{context}}}
+	</div>
+  </div>
+  {{{/context}}}
+  
+  <div class="config">
+	
+	<form id="system" name="system" action="/update.html" method="post">
+	  <fieldset>
+		<legend >{{{installremove}}}</legend>
+		<div class="entry">
+		  <div class="label">{{{squeezelite}}}</div>
+		  <div class="input">
+			<input class="input-check" type="checkbox" name="squeezelite" value="true" {{{p_squeezelite_checked}}} id="squeezelite"/>
+			{{{p_squeezelite_ver}}}
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="label">{{{jivelite}}}</div>
+		  <div class="input">
+			<input class="input-check" type="checkbox" name="jivelite" value="true" {{{p_jivelite_checked}}} id="jivelite"/>
+			{{{p_jivelite_ver}}}
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="label">{{{server78}}}</div>
+		  <div class="input">
+			<input class="input-check" type="checkbox" name="server78" value="true" {{{p_server78_checked}}} id="server78" onclick="javascript:toggle('server78', 'server79');"/>
+			{{{p_server78_ver}}}
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="label">{{{server79}}}</div>
+		  <div class="input">
+			<input class="input-check" type="checkbox" name="server79" value="true" {{{p_server79_checked}}} id="server79" onclick="javascript:toggle('server79', 'server78');"/>
+			{{{p_server79_ver}}}
+		  </div>
+		</div>
+		<!--div class="entry">
+		  <div class="label">{{{kernel}}}</div>
+		  <div class="input">
+			<input class="input-check" type="checkbox" name="kernel" value="true" {{{p_kernel_checked}}} id="kernel"/>
+			{{{p_kernel_ver}}}
+		  </div>
+		</div-->
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="updateremove" name="installremove" value="{{{installremove}}}"/>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<legend >{{{update}}}</legend>
+		<div class="entry">{{{update_desc}}}</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="update" name="update" value="{{{update}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+
+  </div>	
+
+</div>
+
+<div id="log">
+  <textarea class="log" name="status" readonly="readonly" id="update_status" onclick="javascript:startstop_log();">{{{p_log}}}</textarea>
+</div>

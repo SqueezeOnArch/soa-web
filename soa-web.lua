@@ -32,6 +32,7 @@ cfg   = {}
 local NetworkConfig     = require('soa-web.NetworkConfig')
 local SqueezeliteConfig = require('soa-web.SqueezeliteConfig')
 local StorageConfig     = require('soa-web.StorageConfig')
+local Update            = require('soa-web.Update')
 
 local strings, language
 
@@ -196,6 +197,8 @@ function read_config()
 	end
 	-- ensure tmp loction set
 	cfg.tmpdir = cfg.tmpdir or "/tmp"
+
+	cfg.update = Update.available()
 end
 
 read_config()
@@ -307,7 +310,7 @@ local service_actions = {
 }
 
 function PageHandler:renderResult(template, t)
-	local header_t = { context = t['context'], p_wired = cfg.wired, p_wireless = cfg.wireless }
+	local header_t = { context = t['context'], p_wired = cfg.wired, p_wireless = cfg.wireless, p_update = cfg.update }
 	setmetatable(header_t, { __index = strings['header'] })
 	self:write( templ:render('header.html', header_t ) )
 	self:write( templ:render(template, t) )
@@ -333,7 +336,7 @@ local SqueezeliteHandler = class("SqueezeliteHandler", PageHandler)
 local SqueezeserverHandler = class("SqueezeserverHandler", PageHandler)
 local StorageHandler     = class("StorageHandler", PageHandler)
 local ShutdownHandler    = class("ShutdownHandler", PageHandler)
-local FaqHandler         = class("FaqHandler", PageHandler)
+local UpdateHandler      = class("UpdateHandler", PageHandler)
 local LogHandler         = class("LogHandler", turbo.web.RequestHandler)
 
 ------------------------------------------------------------------------------------------
@@ -399,26 +402,6 @@ function _zones(dir)
 	return t
 end
 
-function _sambaconf()
-	local file = io.open('/etc/samba/smb.conf', 'r')
-	local name, group
-	if file then
-		for line in file:lines() do
-			local n =  string.match(line, "%s*netbios%s*name%s*=%s*(.-)%s*$")
-			local g = string.match(line, "workgroup%s*=%s*(.-)%s*$")
-			if n then
-				name = string.match(n, '^"(.-)"$') or n
-			end
-			if g then
-				group =	string.match(g, '^"(.-)"$') or g
-			end
-		end
-		file:close()
-	end
-
-	return name, group
-end
-
 function SystemHandler:_response()
 	local t = {}
 	
@@ -467,8 +450,6 @@ function SystemHandler:_response()
 		file:close()
 	end
 
-	t['p_nb_name'], t['p_nb_group'] = _sambaconf()
-
 	setmetatable(t, { __index = strings['system'] })
 	self:renderResult('system.html', t)
 end
@@ -491,34 +472,6 @@ function SystemHandler:post()
 		log.debug("setting timezone to " .. newzone)
 		util.execute("sudo ln -sf /usr/share/zoneinfo/" .. newzone .. " /etc/localtime")
 	end
-	
-	--[[
-	local locale = self:get_argument("locale", false)
-	if hostname then
-		log.debug("setting locale to " .. locale)
-		local file = io.open(tmpFile, "w")
-		if file then
-			file:write('LANG="' .. locale .. '"\n')
-			file:close()
-			util.execute("sudo sp-localeUpdate " .. tmpFile)
-			util.execute("rm " .. tmpFile)
-		end
-	end
-
-	local name  = self:get_argument("nb_name", false)
-	local group = self:get_argument("nb_group", false)
-
-	local cur_name, cur_group = _sambaconf()
-
-	if name and name ~= cur_name then
-		util.execute("sudo sp-sambaConfigNetbiosName " .. name)
-	end
-
-	if group and group ~= cur_group then
-		util.execute("sudo sp-sambaConfigWorkgroup " .. group)
-	end
-
-	--]]
 	
 	self:_response()
 end
@@ -974,11 +927,49 @@ function ShutdownHandler:post()
 	end
 end
 
-------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------
 
--- faq.html
-function FaqHandler:get()
-	self:renderResult('faq.html', strings['faq'])
+-- update.html
+function UpdateHandler:_response(install, remove)
+	local t = {}
+	local existing = Update.existing()
+
+	for _, o in ipairs(Update:options()) do
+		t['p_' .. o .. '_checked'] = existing[o] and "checked"
+		t['p_' .. o .. '_ver']     = existing[o]
+		if install and install[o] then
+			t['p_' .. o .. '_checked'] = "checked"
+		end
+		if remove and remove[o] then
+			t['p_' .. o .. '_checked'] = nil
+		end
+	end
+
+	setmetatable(t, { __index = strings['update'] })
+	self:renderResult('update.html', t)
+end
+
+function UpdateHandler:get()
+	self:_response()
+end
+
+function UpdateHandler:post()
+	local install, remove = {}, {}
+
+	if self:get_argument("update", false) then
+		Update.update()
+	end
+
+	if self:get_argument("installremove", false) then
+		local existing = Update:existing()
+		for _, o in ipairs(Update:options()) do
+			remove[o] = not self:get_argument(o, false) and existing[o]
+			install[o] = self:get_argument(o, false) and not existing[o]
+		end
+		Update.installremove(install, remove)
+	end
+
+	self:_response(install, remove)
 end
 
 ------------------------------------------------------------------------------------------
@@ -993,7 +984,9 @@ function LogHandler:get(log)
 		local config = SqueezeliteConfig.get()
 		file = config and config.logfile
 	elseif log == 'squeezeboxserver' then
-		file = '"/var/log/squeezeboxserver/server.log'
+		file = '/opt/logitechmediaserver/Logs/server.log'
+	elseif log == 'soa-build' then
+		file = '/tmp/soa-build.log'
 	end
 
 	if file then
@@ -1044,9 +1037,9 @@ turbo.web.Application({
     { "^/squeezeserver%.html$", SqueezeserverHandler },
     { "^/storage%.html$", StorageHandler },
     { "^/shutdown%.html$", ShutdownHandler },
-    { "^/faq%.html$", FaqHandler },
+    { "^/update%.html$", UpdateHandler },
     { "^/(.-)%.log$", LogHandler },
-	{ "^/static/(.*)$", turbo.web.StaticFileHandler, static_path },
+    { "^/static/(.*)$", turbo.web.StaticFileHandler, static_path },
 }):listen(PORT)
 
 turbo.ioloop.instance():start()
