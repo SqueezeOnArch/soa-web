@@ -313,7 +313,7 @@ return {
 		rebooting = "Device rebooting",
 	},
 	['update'] = {
-		title = "Upate",
+		title = "Update",
 		installremove = "Install/Remove",
 		squeezelite = "Squeezelite",
 		server78 = "Squeeze Server 7.8",
