@@ -46,7 +46,10 @@ function existing()
 	local t = {}
 	for k, v in pairs(opts) do
 	    local res = util.capture("pacman -Q " .. v)
-	    t[k] = string.match(res, v .. " (.-)\n")
+		local pac, ver = string.match(res, "(.-) (.-)\n")
+		if pac == v then
+			t[k] = ver
+		end
 	end
 	return t
 end
