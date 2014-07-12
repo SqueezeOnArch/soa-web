@@ -25,11 +25,26 @@ module(...)
 
 local fstabLocation = "/etc/fstab"
 local local_disks   = "/dev/"
+local mountdir      = "/mnt/"
+
+local storagedirs = {}
+for dir in lfs.dir(mountdir) do
+	if not string.match(dir, "^%.") then
+		if lfs.attributes(mountdir .. dir, "mode") == "directory" then
+			storagedirs[#storagedirs+1] = mountdir .. dir
+		end
+	end
+	table.sort(storagedirs)
+end
+
+function available()
+	return #storagedirs > 0
+end
 
 function _mounts()
 	local mounts = {}
 	local storage = {}
-	for _, v in ipairs(cfg.storagedirs or {}) do
+	for _, v in ipairs(storagedirs) do
 		storage[v] = true
 	end
 
@@ -94,7 +109,7 @@ function mountpoints(mounts)
 	for _, mount in ipairs(mounts) do
 		exclude[mount.mountp] = true
 	end
-	for _, v in ipairs(cfg.storagedirs or {}) do
+	for _, v in ipairs(storagedirs) do
 	    if not exclude[v] then
 			t[#t+1] = v
 	    end

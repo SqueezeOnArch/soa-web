@@ -17,22 +17,17 @@ return {
 		location = "Location",
 		timezone = "Time Zone",
 		locale = "Locale",
-		samba = "Samba",
-		nb_name = "Samba Name",
-		nb_group = "Samba Workgroup",
 		hostname_tip = "Hostname for your device",
 		timezone_tip = "Select the timezone appropriate to your location",
 		locale_tip = "Select the locale appropriate for your location",
-		nb_name_tip = "Netbios name for samba file sharing",
-		nb_group_tip = "Workgroup for Samba file sharing",
 		version = "Version",
 		os_version = "OS Version",
 		fedora_version = "Fedora Version",
 		context =
 		"<ul><li>Use this page to set the configurations for the linux operating system running within your device.</li>" ..
 		"<li><i><b>Hostname</b></i> sets the name for your device. This may be different from the name given to the player instance running on the device. You are likely to see this name from other devices on your network if they show names of machines on your network.</li>" ..
-		"<li><i><b>Location</b></i> settings enable the timezone and language settings of the device to be set to your country.</li>" ..
-		"<li><i><b>Samba</b></i> settings enable you to specify the settings for the local Windows file sharing server (Samba) within the device.  This is used so you can access disks which are mounted on device from other machines on your network.  Disks are mounted on the device using the Storage menu.</li></ul>",
+		"<li><i><b>Location</b></i> settings enable the timezone of the device to your location.</li>" ..
+		"</ul>",
 	},
 	['network'] = {
 		title_eth  = "Ethernet Interface Configuration",
@@ -295,7 +290,7 @@ return {
 		"<li><b>Machine:/path</b> for an NFS share <i>/path</i> on a NAS or file server called <i>Machine</i></li></ul>" ..
 		"<li>Mounted file systems will be re-attached when the device restarts if they are available.  To disconnect them click the <i>Remove</i> button alongside the mount entry in the <i>Mounted&nbsp;File&nbsp;Systems</i> area.</li>" ..
 		"<li>If your music library contains artists, albums or titles with Unicode characters such as accents and umlauts then you should add the option <b>iocharset=utf8</b> to the options field.</li>" ..
-		"<li>Disks mounted on the mountpoint option showing (samba) are automatically made available as a windows fileshare to other machines on your network.  The Samba server is configured on the System menu.</li></ul>",
+		"</ul>",
 	},
 	['shutdown'] = {
 		title = "Shutdown: Reboot or Halt the device",

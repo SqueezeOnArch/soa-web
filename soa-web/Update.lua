@@ -18,7 +18,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with soa-web. If not, see <http://www.gnu.org/licenses/>.
 
-local lfs, os, pairs, string = lfs, os, pairs, string
+local lfs, os, io, pairs, string = lfs, os, io, pairs, string
 local util, cfg, log = util, cfg, log
 
 module(...)
@@ -28,10 +28,10 @@ local updateScript  = "soa-update-all.sh"
 local installScript = "soa-installremove-components.sh"
 
 local opts = {
-	squeezelite = 'squeezelite',
-	jivelite    = 'jivelite',
-	server78    = 'logitechmediaserver',
-	server79    = 'logitechmediaserver-lms',
+	squeezelite = { 'squeezelite', 'squeezelite' },
+	jivelite    = { 'jivelite' },
+	server78    = { 'logitechmediaserver', 'squeezeserver' },
+	server79    = { 'logitechmediaserver-lms', 'squeezeserver' }
 }
 
 function options()
@@ -42,12 +42,30 @@ function available()
 	return lfs.attributes(scriptDir .. updateScript, "size") ~= nil
 end
 
+-- called at startup so don't use util.capture
+function installed()
+	local t = {}
+	for k, v in pairs(opts) do
+		local q = io.popen("pacman -Q " .. v[1] .. " 2>/dev/null")
+		if q then
+			for res in q:lines() do
+				local pac, ver = string.match(res, "(.-) (.-)\n")
+				if pac == v[1] then
+					t[ v[2] ] = true
+				end
+			end
+			q:close()
+		end
+	end
+	return t
+end
+
 function existing()
 	local t = {}
 	for k, v in pairs(opts) do
-	    local res = util.capture("pacman -Q " .. v)
+	    local res = util.capture("pacman -Q " .. v[1])
 		local pac, ver = string.match(res, "(.-) (.-)\n")
-		if pac == v then
+		if pac == v[1] then
 			t[k] = ver
 		end
 	end
@@ -57,16 +75,22 @@ end
 function installremove(install, remove)
 	local cmd = scriptDir .. installScript
 	local required = false
-	for k, _ in pairs(opts) do
+	for k, v in pairs(opts) do
 		if remove[k] then
 			cmd = cmd .. " remove " .. k
 			required = true
+			if v[2] then
+				cfg[ v[2] ] = nil
+			end
 		end
 	end
 	for k, _ in pairs(opts) do
 		if install[k] then
 			cmd = cmd .. " install " .. k
 			required = true
+			if v[2] then
+				cfg[ v[2] ] = true
+			end
 		end
 	end
 	if required then

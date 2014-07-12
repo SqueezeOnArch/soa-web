@@ -166,42 +166,39 @@ local footer_t = { release = release }
 
 ------------------------------------------------------------------------------------------
 
--- read config
-local configFile = "/etc/soa-web.conf"
+-- detect config
 
-function read_config()
-	local config = io.open(configFile, "r")
-	if config then
-		for line in config:lines() do
-			if string.match(line, "TEMP_DIR") then
-				cfg.tmpdir = string.match(line, '^TEMP_DIR=%s*(.-)%s*$')
-			end
-			if string.match(line, "WIRED_INTERFACE") then
-				cfg.wired = string.match(line, '^WIRED_INTERFACE=%s*(.-)%s*$')
-			end
-			if string.match(line, "WIRELESS_INTERFACE") then
-				cfg.wireless = string.match(line, '^WIRELESS_INTERFACE=%s*(.-)%s*$')
-			end
-			if string.match(line, "STORAGE_DIRS") then
-				local dirs = (string.match(line, '^STORAGE_DIRS=%s*(.-)%s*$') or "") .. ","
-				cfg.storagedirs = {}
-				for d in string.gmatch(dirs, "(.-),") do
-					cfg.storagedirs[#cfg.storagedirs + 1] = d
-				end
-			end
-			if string.match(line, "SAMBA_DIR") then
-				cfg.sambadir = string.match(line, '^SAMBA_DIR=%s*(.-)%s*$')
-			end
-		end
-		config:close()
-	end
-	-- ensure tmp loction set
-	cfg.tmpdir = cfg.tmpdir or "/tmp"
+cfg.tmpdir = "/tmp"
+cfg.update = Update.available()
+cfg.storage = StorageConfig:available()
 
-	cfg.update = Update.available()
+if cfg.update then
+	local installed = Update.installed()
+	cfg.squeezelite, cfg.sqeezeserver = installed.squeezelite, installed.squeezeserver
+else
+	cfg.squeezelite, cfg.sqeezeserver = true, true
 end
 
-read_config()
+local ip = io.popen("ip link")
+if ip then
+	for line in ip:lines() do
+		local eth  = string.match(line, "%d: (e.-):")
+		local wlan = string.match(line, "%d: (w.-):")
+		if eth and cfg.wired == nil then
+			cfg.wired = eth
+		end
+		if wlan and cfg.wireless == nil then
+			cfg.wireless = wlan
+		end
+	end
+	ip:close()
+end
+
+if test_mode then
+	cfg.update, cfg.storage = true, true
+	cfg.wired = cfg.wired or "test"
+	cfg.wireless = cfg.wireless or "test"
+end
 
 ------------------------------------------------------------------------------------------
 
@@ -310,7 +307,8 @@ local service_actions = {
 }
 
 function PageHandler:renderResult(template, t)
-	local header_t = { context = t['context'], p_wired = cfg.wired, p_wireless = cfg.wireless, p_update = cfg.update }
+	local header_t = { context = t['context'], p_wired = cfg.wired, p_wireless = cfg.wireless, p_update = cfg.update,
+					   p_squeezelite = cfg.squeezelite, p_squeezeserver = cfg.squeezeserver, p_storage = cfg.storage }
 	setmetatable(header_t, { __index = strings['header'] })
 	self:write( templ:render('header.html', header_t ) )
 	self:write( templ:render(template, t) )
@@ -794,7 +792,7 @@ function StorageHandler:_response(err)
 
 	t['p_mountpoints'] = {}
 	for _, v in ipairs(StorageConfig.mountpoints(mounts)) do
-		table.insert(t['p_mountpoints'], { id = v, desc = (v ~= cfg.sambadir and v or v .. " (samba)") })
+		table.insert(t['p_mountpoints'], { id = v, desc = v })
 	end
 	
 	for _, v in ipairs(mounts) do
@@ -806,7 +804,6 @@ function StorageHandler:_response(err)
 			p_remove = v.active and 'remove_act' or 'remove_inact',
 			p_action_str = v.active and strings['storage']['unmount'] or strings['storage']['remount'],
 			p_remove_str = strings['storage']['remove'],
-			p_samba_str  = v.mountp == cfg.sambadir and "(samba)" or "",
 		})
 	end
 
