@@ -997,9 +997,10 @@ function LogHandler:get(log)
 	else
 		fh:close()
 	end
-		
+
 	if stream then
-		self:set_header('Content-Type', 'text/plain')
+		-- chrome buffers responses unless use octect-stream
+		self:set_header('Content-Type', 'application/octet-stream')
 		self:set_chunked_write()
 		util.stream("tail -n " .. lines .. " -f " .. file,
 			function(chunk)
