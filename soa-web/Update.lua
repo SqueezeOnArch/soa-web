@@ -49,8 +49,8 @@ function installed()
 		local q = io.popen("pacman -Q " .. v[1] .. " 2>/dev/null")
 		if q then
 			for res in q:lines() do
-				local pac, ver = string.match(res, "(.-) (.-)\n")
-				if pac == v[1] then
+				local pac, ver = string.match(res, "(.-) (.-)")
+				if pac == v[1] and v[2] then
 					t[ v[2] ] = true
 				end
 			end

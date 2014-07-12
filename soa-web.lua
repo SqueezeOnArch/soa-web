@@ -174,9 +174,9 @@ cfg.storage = StorageConfig:available()
 
 if cfg.update then
 	local installed = Update.installed()
-	cfg.squeezelite, cfg.sqeezeserver = installed.squeezelite, installed.squeezeserver
+	cfg.squeezelite, cfg.squeezeserver = installed.squeezelite, installed.squeezeserver
 else
-	cfg.squeezelite, cfg.sqeezeserver = true, true
+	cfg.squeezelite, cfg.squeezeserver = true, true
 end
 
 local ip = io.popen("ip link")
