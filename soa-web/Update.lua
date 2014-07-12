@@ -84,7 +84,7 @@ function installremove(install, remove)
 			end
 		end
 	end
-	for k, _ in pairs(opts) do
+	for k, v in pairs(opts) do
 		if install[k] then
 			cmd = cmd .. " install " .. k
 			required = true
