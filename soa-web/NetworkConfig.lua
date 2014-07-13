@@ -18,7 +18,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with soa-web. If not, see <http://www.gnu.org/licenses/>.
 
-local io, string, os, ipairs, pairs, tonumber, tostring = io, string, os, ipairs, pairs, tonumber, tostring
+local io, string, os, ipairs, pairs, tonumber, tostring, bit = io, string, os, ipairs, pairs, tonumber, tostring, bit
 local util, cfg, log = util, cfg, log
 
 module(...)
@@ -38,6 +38,18 @@ function params(wireless)
 	return t
 end
 
+function _tomask(cidr)
+	local bits = 0
+	for i = 32 - (tonumber(cidr) or 0), 31 do
+		bits = bit.bor(bits, bit.lshift(1, i))
+	end
+	return
+		bit.rshift(bit.band(bits, 0xff000000), 24) .. "." ..
+		bit.rshift(bit.band(bits, 0x00ff0000), 16) .. "." ..
+		bit.rshift(bit.band(bits, 0x0000ff00),  8) .. "." ..
+		bit.band(bits, 0x000000ff)
+end
+
 function get(int, is_wireless)
 	local config = {}
 
@@ -50,10 +62,14 @@ function get(int, is_wireless)
 			end
 		end
 		config.dhcp = (config.ip == "dhcp")
-		local status = util.capture("systemctl status netctl-" .. (is_wireless and "auto" or "ifplugd") .. "@" .. int .. ".service")
-		config.onboot = not string.match(status or "", "disabled")
+		local status1 = util.capture("netctl is-enabled " .. int)
+		local status2 = util.capture("systemctl status netctl-" .. (is_wireless and "auto" or "ifplugd") .. "@" .. int .. ".service")
+		config.onboot = string.match(status1 or "", "enabled") or not string.match(status2 or "", "disabled")
 		if config.address then
 			config.address, config.mask = string.match(config.address, "(.-)/(.*)")
+		end
+		if config.mask and string.match(config.mask, "%d+") and not string.match(config.mask, "%d+%.%d+") then
+			config.mask = _tomask(config.mask)
 		end
 		if config.dns then
 			local array = string.match(config.dns, "%((.*)%)") or ""
@@ -118,8 +134,13 @@ function validate(c)
 			return v
 		end
 	end
-	if c.mask and not _ip_validate(c.mask, true) then
-		return 'mask'
+	if c.mask then
+		if string.match(c.mask, "%d+") and not string.match(c.mask, "%d+%.%d+") then
+			c.mask = _tomask(c.mask)
+		end
+		if not _ip_validate(c.mask, true) then
+			return 'mask'
+		end
 	end
 	if (c.address or c.mask or c.gateway) and not (c.address and c.mask and c.gateway) then
 		return 'static'
@@ -170,18 +191,17 @@ function set(config, int, is_wireless)
 		util.execute("sudo cp " .. configFileTmp .. " " .. configFilePrefix .. int)
 		util.execute("rm " .. configFileTmp)
 
-		if config.onboot then
-			if is_wireless then
-				util.execute("sudo systemctl enable netctl-auto@" .. int .. ".service")
-			else
-				util.execute("sudo systemctl enable netctl-ifplugd@" .. int .. ".service")
-			end
+		-- disable systemd helpers and use raw netctl
+		if is_wireless then
+			util.execute("sudo systemctl disable netctl-auto@" .. int .. ".service")
 		else
-			if is_wireless then
-				util.execute("sudo systemctl disable netctl-auto@" .. int .. ".service")
-			else
-				util.execute("sudo systemctl disable netctl-ifplugd@" .. int .. ".service")
-			end
+			util.execute("sudo systemctl disable netctl-ifplugd@" .. int .. ".service")
+		end
+
+		if config.onboot then
+			util.execute("sudo netctl enable " .. int)
+		else
+			util.execute("sudo netctl disable " .. int)
 		end
 
 		log.debug("wrote and updated config")

@@ -582,13 +582,11 @@ function NetworkHandler:post(type)
 
 	if self:get_argument("network_ifdown", false) or self:get_argument("network_ifdownup", false) then
 		log.debug("ifdown " .. int)
-		local service = is_wireless and "auto" or "ifplugd"
-		util.execute("sudo systemctl stop netctl-" .. (is_wireless and "auto" or "ifplugd") .. "@" .. int .. ".service")
+		util.execute("sudo netctl stop " .. int)
 	end
 	if self:get_argument("network_ifup", false) or self:get_argument("network_ifdownup", false) then
 		log.debug("ifup " .. int)
-		local service = is_wireless and "auto" or "ifplugd"
-		util.execute("sudo systemctl start netctl-" .. (is_wireless and "auto" or "ifplugd") .. "@" .. int .. ".service")
+		util.execute("sudo netctl start " .. int)
 	end
 
 	self:_response(type)
@@ -851,6 +849,12 @@ function StorageHandler:post()
 				else
 					opts = opts .. ",guest"
 				end
+			end
+
+			if string.match(type, "nfs") then
+				-- nfs requires helper service to be running
+				util.execute("sudo systemctl enable nfs-client.target")
+				util.execute("sudo systemctl start nfs-client.target")
 			end
 		end
 		
