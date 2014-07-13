@@ -71,9 +71,9 @@ function get()
 	if fstab then
 		local ours = false
 		for line in fstab:lines() do
-			if string.match(line, "^# start added by squeeze%-web%-gui") then
+			if string.match(line, "^# start added by soa%-web") then
 				ours = true
-			elseif string.match(line, "^# end added by squeeze%-web%-gui") then
+			elseif string.match(line, "^# end added by soa%-web") then
 				ours = false
 			elseif ours then
 				local spec, mountp, type, opts = string.match(line, "(.-)%s+(.-)%s+(.-)%s+(.-)%s")

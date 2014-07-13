@@ -837,7 +837,7 @@ function StorageHandler:post()
 		end
 		
 		if new_remote then
-			opts = opts or "defaults,noauto,x-systemd.automount,_netdev"
+			opts = opts or "defaults,_netdev"
 			
 			if type == 'cifs' then
 				-- for cifs we must make sure that either credentials or guest is added to the option string else mount.cifs may block
