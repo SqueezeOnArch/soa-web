@@ -197,3 +197,9 @@ function cred_file(mountp, user, pass, domain)
 	
 	return '/etc/credentials/' .. credFile
 end
+
+function remove_cred_file(mountp)
+	-- will be called even though file does not exist
+	local credFile = "/etc/credentials/cifs" .. string.gsub(mountp, "/", "-")
+	util.execute("sudo [ -f " .. credFile .. " ] && sudo rm " .. credFile)
+end

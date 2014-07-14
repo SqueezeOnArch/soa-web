@@ -876,6 +876,10 @@ function StorageHandler:post()
 				StorageConfig.set(mounts)
 			end
 
+			if type ~= 'cifs' then
+				StorageConfig.remove_cred_file(mountp)
+			end
+
 		end
 	end
 	
@@ -900,6 +904,7 @@ function StorageHandler:post()
 			i = i + 1
 		end
 		StorageConfig.set(mounts)
+		StorageConfig.remove_cred_file(remove)
 	end
 	
 	self:_response(err)
