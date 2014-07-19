@@ -118,6 +118,19 @@ function _ip_validate(s, mask)
 		ip3 = tonumber(ip3)
 		ip4 = tonumber(ip4)
 		if mask and ip1 >= 0 and ip1 <= 255 and ip2 >= 0 and ip2 <= 255 and ip3 >= 0 and ip3 <= 255 and ip4 >= 0 and ip4 <= 255 then
+			local bits = bit.tobit(bit.lshift(ip1, 24) + bit.lshift(ip2, 16) + bit.lshift(ip3, 8) + ip4)
+			local first
+			for i = 0, 31 do
+				if bit.band(bits, bit.lshift(1, i)) ~= 0 then
+					first = i
+					break
+				end
+			end
+			for i = first or 0, 31 do
+				if bit.band(bits, bit.lshift(1, i)) == 0 then
+					return false
+				end
+			end
 			return true
 		end
 		if ip1 >= 0 and ip1 < 224 and ip2 >= 0 and ip2 <= 255 and ip3 >= 0 and ip3 <= 255 and ip4 > 0 and ip4 < 255 then

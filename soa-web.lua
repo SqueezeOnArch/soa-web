@@ -583,6 +583,7 @@ function NetworkHandler:post(type)
 	if self:get_argument("network_ifdown", false) or self:get_argument("network_ifdownup", false) then
 		log.debug("ifdown " .. int)
 		util.execute("sudo netctl stop " .. int)
+		util.execute("sudo ip addr flush dev " .. int)
 	end
 	if self:get_argument("network_ifup", false) or self:get_argument("network_ifdownup", false) then
 		log.debug("ifup " .. int)
@@ -786,7 +787,7 @@ function StorageHandler:_response(err)
 	
 	t['p_disks']       = _ids(StorageConfig.localdisks())
 	t['p_types_local'] = _ids({ '', 'fat', 'ntfs', 'ext2', 'ext3', 'ext4' })
-	t['p_types_remote']= _ids({ '', 'cifs', 'nfs', 'nfs4' })
+	t['p_types_remote']= _ids({ '', 'cifs', 'nfs' })
 
 	t['p_mountpoints'] = {}
 	for _, v in ipairs(StorageConfig.mountpoints(mounts)) do
