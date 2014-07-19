@@ -81,7 +81,7 @@ return {
 		"<li><i><b>On&nbsp;Boot</b></i> defines if the interface is activated when your device starts.  Ensure at least one of the interfaces has this set.</li>" ..
 		"<li><i><b>DHCP</b></i> is normally selected to obtain IP addresing from your network.  Clear it if you prefer to define static IP address information.</li>" ..
 		"<li><i>Save</i> conifiguration changes and select <i>Interface&nbsp;Down&nbsp;/&nbsp;Interface&nbsp;Up</i> to restart the interface with new parameters.</li></ul>",
-		context_wifi = "<ul><li>For wireless networks you can select which network to use from the list of detected <i>Network&nbsp;Names</i> or define your own if it is hidden.  You should also specify a WPA Password.  Note that WPA/WPA2 with a pre-shared key is the only authentication option supported by the configuration page.</li></ul>",
+		context_wifi = "<ul><li>For wireless networks select your location and press <i>Save</i> followed by <i>Interface&nbsp;Down&nbsp;/&nbsp;Interface&nbsp;Up</i>.  You can then select which network to use from the list of detected <i>Network&nbsp;Names</i> or define your own if it is hidden.  You should also specify a WPA Password.  Note that WPA/WPA2 with a pre-shared key is the only authentication option supported.</li></ul>",
 		AT = "Austria",
 		AU = "Australia",
 		BE = "Belgium",
