@@ -79,6 +79,8 @@ function get(int, is_wireless)
 		conf:close()
 	else
 		log.debug("unable to open: " .. configFilePrefix .. int)
+		config.dhcp = true
+		config.onboot = true
 	end
 
 	return config
@@ -175,8 +177,8 @@ function set(config, int, is_wireless)
 			conf:write("IP=dhcp\n")
 		else
 			conf:write("IP=static\n")
-			conf:write("Address='" .. config.address .. "/" .. config.mask .. "'\n")
-			conf:write("Gateway='" .. config.gateway .. "'\n")
+			conf:write("Address='" .. (config.address or "") .. "/" .. (config.mask or "") .. "'\n")
+			conf:write("Gateway='" .. (config.gateway or "") .. "'\n")
 			conf:write("DNS=(" .. 
 					   (config.dns1 and ("'" .. config.dns1 .. "'") or "") ..
 					   (config.dns2 and (" '" .. config.dns2 .. "'") or "") ..
