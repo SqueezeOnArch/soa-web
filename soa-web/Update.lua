@@ -18,7 +18,7 @@
 -- You should have received a copy of the GNU General Public License
 -- along with soa-web. If not, see <http://www.gnu.org/licenses/>.
 
-local lfs, os, io, pairs, string = lfs, os, io, pairs, string
+local lfs, os, io, ipairs, pairs, string = lfs, os, io, ipairs, pairs, string
 local util, cfg, log = util, cfg, log
 
 module(...)
@@ -33,10 +33,10 @@ local opts = {
 	server78    = { 'logitechmediaserver', 'squeezeserver' },
 	server79    = { 'logitechmediaserver-lms', 'squeezeserver' }
 }
-
-function options()
-	return { 'squeezelite', 'jivelite', 'server78', 'server79' }
-end
+local kernels = {
+	{ 'linux-wandboard-soa', 'linux-wandboard' }
+}
+local keys_opts = {}
 
 function available()
 	return lfs.attributes(scriptDir .. updateScript, "size") ~= nil
@@ -56,8 +56,31 @@ function installed()
 			end
 			q:close()
 		end
+		keys_opts[#keys_opts+1] = k
+	end
+	-- add option entry for installable kernel if it is or can be installed
+	for _, v in ipairs(kernels) do
+		for _, kern in ipairs(v) do
+			local q = io.popen("pacman -Q " .. kern .. " 2>/dev/null")
+			if q then
+				for res in q:lines() do
+					local pac, ver = string.match(res, "(.-) (.-)")
+					if pac == kern then
+						opts['kernel'] = v
+						keys_opts[#keys_opts+1] = 'kernel'
+					end
+				end
+				q:close()
+			end
+			if keys_opts[#keys_opts] == 'kernel' then break	end
+		end
+		if keys_opts[#keys_opts] == 'kernel' then break	end
 	end
 	return t
+end
+
+function options()
+	return keys_opts
 end
 
 function existing()
@@ -77,7 +100,7 @@ function installremove(install, remove)
 	local required = false
 	for k, v in pairs(opts) do
 		if remove[k] then
-			cmd = cmd .. " remove " .. k
+			cmd = cmd .. " remove " .. ((k ~= 'kernel') and k or v[1])
 			required = true
 			if v[2] then
 				cfg[ v[2] ] = nil
@@ -86,7 +109,7 @@ function installremove(install, remove)
 	end
 	for k, v in pairs(opts) do
 		if install[k] then
-			cmd = cmd .. " install " .. k
+			cmd = cmd .. " install " .. ((k ~= 'kernel') and k or v[1])
 			required = true
 			if v[2] then
 				cfg[ v[2] ] = true

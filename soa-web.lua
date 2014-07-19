@@ -941,13 +941,13 @@ function UpdateHandler:_response(install, remove)
 	local existing = Update.existing()
 
 	for _, o in ipairs(Update:options()) do
-		t['p_' .. o .. '_checked'] = existing[o] and "checked"
+		t['p_' .. o .. '_checked'] = existing[o] and "checked" or ""
 		t['p_' .. o .. '_ver']     = existing[o]
 		if install and install[o] then
 			t['p_' .. o .. '_checked'] = "checked"
 		end
 		if remove and remove[o] then
-			t['p_' .. o .. '_checked'] = nil
+			t['p_' .. o .. '_checked'] = ""
 		end
 	end
 

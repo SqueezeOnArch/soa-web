@@ -103,13 +103,15 @@ window.onload = function() {
 			{{{p_server79_ver}}}
 		  </div>
 		</div>
-		<!--div class="entry">
+		{{#p_kernel_checked}}
+		<div class="entry">
 		  <div class="label">{{{kernel}}}</div>
 		  <div class="input">
 			<input class="input-check" type="checkbox" name="kernel" value="true" {{{p_kernel_checked}}} id="kernel"/>
 			{{{p_kernel_ver}}}
 		  </div>
-		</div-->
+		</div>
+		{{/p_kernel_checked}}
 	  </fieldset>
 	  <fieldset>
 		<div class="entry submit">
