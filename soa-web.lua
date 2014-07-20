@@ -156,6 +156,10 @@ util.stream = function(cmd, sink, request)
 	_process_cmd(cmd, sink, request)
 end
 
+util.timer = function(delay, cb)
+	turbo.ioloop.instance():add_timeout(turbo.util.gettimeofday() + delay, function() cb() end)
+end
+
 if not debug and not test_mode then
 	log.categories.debug   = false
 	log.categories.success = false
@@ -919,16 +923,18 @@ function ShutdownHandler:get()
 end
 
 function ShutdownHandler:post()
+	local DELAY = 2 * 1000
+
 	if self:get_argument("halt", false) then
 		log.debug("halt")
 		self:renderResult('reboothalt.html', 
 						  setmetatable({ p_message = strings['reboothalt']['halting'] }, { __index = strings['reboothalt'] }))
-		util.execute("sudo halt")
+		util.timer(DELAY, function() util.execute("sudo halt") end)
 	elseif self:get_argument("reboot", false) then
 		log.debug("restart")
 		self:renderResult('reboothalt.html', 
 						  setmetatable({ p_message = strings['reboothalt']['rebooting'] }, { __index = strings['reboothalt'] }))
-		util.execute("sudo reboot")
+		util.timer(DELAY, function() util.execute("sudo reboot") end)
 	else
 		self:renderResult('shutdown.html', strings['shutdown'])
 	end
