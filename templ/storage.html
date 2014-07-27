@@ -175,7 +175,39 @@ function remoteTypeCheck() {
 		</div>
 	  </fieldset>
 	</form>
-	
+
+	{{#p_samba_avail}}
+	<form id="samba_config" name="samba_config" action="/storage.html" method="post">
+	  <fieldset>
+		<legend>{{{samba}}}</legend>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{samba_tip}}}">
+			<label for="onboot" class="label">{{{samba}}}</label>
+			<input class="input-check" type="checkbox" name="samba" value="true" {{{p_samba_checked}}} id="samba"/>
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{nb_name_tip}}}">
+			<label for="nb_name" class="label">{{{nb_name}}}</label>
+			<input class="input" type="text" name="nb_name" value="{{{p_nb_name}}}" id="nb_name" />
+		  </div>
+		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{nb_group_tip}}}">
+			<label for="nb_group" class="label">{{{nb_group}}}</label>
+			<input class="input" type="text" name="nb_group" value="{{{p_nb_group}}}" id="nb_group" />
+		  </div>
+		</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="reset" name="reset" value="{{{reset}}}"/>
+		  <input type="submit" id="sambaconfig_save" name="sambaconfig_save" value="{{{save}}}"/>
+		</div>
+	  </fieldset>
+	</form>
+	{{/p_samba_avail}}
+
   </div>
   
 </div>

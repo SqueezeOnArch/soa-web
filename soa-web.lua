@@ -32,6 +32,7 @@ cfg   = {}
 local NetworkConfig     = require('soa-web.NetworkConfig')
 local SqueezeliteConfig = require('soa-web.SqueezeliteConfig')
 local StorageConfig     = require('soa-web.StorageConfig')
+local SambaConfig       = require('soa-web.SambaConfig')
 local Update            = require('soa-web.Update')
 
 local strings, language
@@ -810,6 +811,13 @@ function StorageHandler:_response(err)
 		})
 	end
 
+	local samba_avail, samba_running = SambaConfig.status()
+	if samba_avail then
+		t['p_samba_avail'] = true
+		t['p_samba_checked'] = samba_running and "checked" or ""
+		t['p_nb_name'], t['p_nb_group'] = SambaConfig.get()
+	end
+
 	setmetatable(t, { __index = strings['storage'] })
 	self:renderResult('storage.html', t)
 end
@@ -819,6 +827,7 @@ function StorageHandler:get()
 end
 
 function StorageHandler:post()
+	-- mounts config
 	local new_local   = self:get_argument('localfs_mount', false)
 	local new_remote  = self:get_argument('remotefs_mount', false)
 	local unmount     = self:get_argument('unmount', false)
@@ -911,7 +920,30 @@ function StorageHandler:post()
 		StorageConfig.set(mounts)
 		StorageConfig.remove_cred_file(remove)
 	end
-	
+
+	-- samba config
+	local samba_config = self:get_argument('sambaconfig_save', false)
+	local samba = self:get_argument('samba', false)
+	local name  = self:get_argument('nb_name', false)
+	local group = self:get_argument('nb_group', false)
+
+	if samba_config then
+		local samba_avail, samba_running = SambaConfig.status()
+		local cur_name, cur_group = SambaConfig.get()
+		if (name or "") ~= (cur_name or "") or (group or "") ~= (cur_group or "") then
+			SambaConfig.set(name, group)
+			SambaConfig.restart()
+		end
+		if samba_running and not samba then
+			log.debug("samba stop")
+			SambaConfig.stop()
+		end
+		if not samba_running and samba then
+			log.debug("samba start")
+			SambaConfig.start()
+		end
+	end
+
 	self:_response(err)
 end
 

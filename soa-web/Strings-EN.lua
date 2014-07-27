@@ -273,6 +273,9 @@ return {
 		remount = "Remount",
 		active = "active",
 		inactive = "inactive",
+		samba = "Samba Server",
+		nb_name = "Samba Name",
+		nb_group = "Samba Workgroup",
 		mountpoint_tip = "Location where mount appears on device filesystem",
 		disk_tip = "Disk to mount",
 		network_tip = "Network share to mount",
@@ -281,6 +284,9 @@ return {
 		pass_tip = "Password for CIFS mount",
 		domain_tip = "Domain for CIFS mount (optional)",
 		options_tip = "Additional mount options",
+		samba_tip = "Enable Samba server",
+		nb_name_tip = "Netbios name for samba file sharing",
+		nb_group_tip = "Workgroup for Samba file sharing",
 		context =
 		"<ul><li>Use this menu to attach (mount) local and remote disks to your device for use with the internal Squeezebox Server.</li>" ..
 		"<li>The <i><b>Local&nbsp;Disk</b></i> section is used to attach local disks. Select one of the mountpoint options. This is the path where it will appear on the device file system. Select one of the disk options. You will not normally need to select the type of the disk as this is detected automatically from its format.  Click <i>Add</i> to attach the disk to the device. If this is sucessful then an entry will appear in the <i>Mounted&nbsp;File&nbsp;Systems</i> area at the top of the page otherwise an error will be shown. If your disk has multiple partitions you may need to try each disk option in turn to find the correct one for your files.</li>" ..
@@ -290,6 +296,7 @@ return {
 		"<li><b>Machine:/path</b> for an NFS share <i>/path</i> on a NAS or file server called <i>Machine</i></li></ul>" ..
 		"<li>Mounted file systems will be re-attached when the device restarts if they are available.  To disconnect them click the <i>Remove</i> button alongside the mount entry in the <i>Mounted&nbsp;File&nbsp;Systems</i> area.</li>" ..
 		"<li>If your music library contains artists, albums or titles with Unicode characters such as accents and umlauts then you should add the option <b>iocharset=utf8</b> to the options field.</li>" ..
+		"<li>The <i><b>Samba&nbsp;Server</b></i> section is used to configure Windows file sharing (Samba) from the device.  When enabled any local disks or network shares mounted in this menu will be available as a windows file share from other devices on your network.  Set the <i>Samba Name</i> to be unique on your network and the <i>Samba Workgroup</i> to match the setting in the rest of your devices.</li>" ..
 		"</ul>",
 	},
 	['shutdown'] = {
