@@ -16,13 +16,9 @@ return {
 		hostname = "Hostname",
 		location = "Location",
 		timezone = "Time Zone",
-		locale = "Locale",
 		hostname_tip = "Hostname for your device",
 		timezone_tip = "Select the timezone appropriate to your location",
 		locale_tip = "Select the locale appropriate for your location",
-		version = "Version",
-		os_version = "OS Version",
-		fedora_version = "Fedora Version",
 		context =
 		"<ul><li>Use this page to set the configurations for the linux operating system running within your device.</li>" ..
 		"<li><i><b>Hostname</b></i> sets the name for your device. This may be different from the name given to the player instance running on the device. You are likely to see this name from other devices on your network if they show names of machines on your network.</li>" ..
@@ -351,6 +347,8 @@ return {
 	['footer'] = {
 		copyright = "Copyright",
 		version = "Version",
+		footer1 = "Squeeze on Arch Configuration Interface.  Non commercial use only.",
+		footer2 = "THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE",
 	},
 	['base'] = { -- these are shared between all pages
 		status = "Status",
