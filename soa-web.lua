@@ -789,6 +789,14 @@ function StorageHandler:_response(err)
 	local mounts = StorageConfig.get()
 	
 	table.sort(mounts, function(a, b) return a.mountp < b.mountp end)
+
+	local samba_avail, samba_running = SambaConfig.status()
+	local samba_paths = {}
+	if samba_avail then
+		t['p_samba_avail'] = true
+		t['p_samba_checked'] = samba_running and "checked" or ""
+		t['p_nb_name'], t['p_nb_group'], samba_paths = SambaConfig.get()
+	end
 	
 	t['p_disks']       = _ids(StorageConfig.localdisks())
 	t['p_types_local'] = _ids({ '', 'fat', 'ntfs', 'ext2', 'ext3', 'ext4' })
@@ -796,7 +804,7 @@ function StorageHandler:_response(err)
 
 	t['p_mountpoints'] = {}
 	for _, v in ipairs(StorageConfig.mountpoints(mounts)) do
-		table.insert(t['p_mountpoints'], { id = v, desc = v })
+		table.insert(t['p_mountpoints'], { id = v, desc = v .. (samba_paths[v] and (" " .. strings['storage']['samba_' .. samba_paths[v] ]) or "") })
 	end
 	
 	for _, v in ipairs(mounts) do
@@ -808,14 +816,8 @@ function StorageHandler:_response(err)
 			p_remove = v.active and 'remove_act' or 'remove_inact',
 			p_action_str = v.active and strings['storage']['unmount'] or strings['storage']['remount'],
 			p_remove_str = strings['storage']['remove'],
+			p_samba_str  = samba_running and samba_paths[v.mountp] and strings['storage']['export_' .. samba_paths[v.mountp]],
 		})
-	end
-
-	local samba_avail, samba_running = SambaConfig.status()
-	if samba_avail then
-		t['p_samba_avail'] = true
-		t['p_samba_checked'] = samba_running and "checked" or ""
-		t['p_nb_name'], t['p_nb_group'] = SambaConfig.get()
 	end
 
 	setmetatable(t, { __index = strings['storage'] })
