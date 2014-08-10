@@ -83,7 +83,7 @@ function get()
 				else
 					local p = string.match(line, "%s*path%s*=%s*(.-)%s*$")
 					local r = string.match(line, "%s*read only%s*=%s*(.-)%s*$")
-					local r = string.match(line, "%s*writable%s*=%s*(.-)%s*$") or string.match(line, "%s*write ok%s*=%s*(.-)%s*$")
+					local w = string.match(line, "%s*writeable%s*=%s*(.-)%s*$") or string.match(line, "%s*write ok%s*=%s*(.-)%s*$")
 					if p then
 						path[sect] = p
 					end

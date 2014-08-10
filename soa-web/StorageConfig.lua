@@ -30,7 +30,7 @@ local mountdir      = "/mnt/"
 local storagedirs = {}
 
 for dir in lfs.dir("/") do
-	if string.match(dir, "^storage") and lfs.attributes("/" .. dir, "mode") == "directory" then
+	if (string.match(dir, "^storage") or string.match(dir, "^share")) and lfs.attributes("/" .. dir, "mode") == "directory" then
 		storagedirs[#storagedirs+1] = "/" .. dir
 	end
 end
