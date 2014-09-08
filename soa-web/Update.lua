@@ -34,7 +34,8 @@ local opts = {
 	server79    = { 'logitechmediaserver-lms', 'squeezeserver' }
 }
 local kernels = {
-	{ 'linux-wandboard-soa', 'linux-wandboard' }
+	{ 'linux-wandboard-soa', 'linux-wandboard' },
+	{ 'linux-sun7i-soa',     'linux-sun7i'     }
 }
 local keys_opts = {}
 
