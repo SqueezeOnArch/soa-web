@@ -1,17 +1,14 @@
 <script type="text/javascript">
 var log_xhr;
-function update_log(id, url, num) {
+function update_log(id, url, lines) {
   var xhr = new XMLHttpRequest();
-  var pos = 0;
-  var lines = [];
   if (xhr) {
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 3) {
-        var new_text  = xhr.responseText.substr(pos, xhr.responseText.lastIndexOf('\n') - pos);
-        var new_lines = new_text.split('\n');
-        pos = xhr.responseText.length;
-        lines = lines.concat(new_lines);
-        lines = lines.splice(-num);
+        var lines = xhr.responseText.split('\n')
+        if (lines.length > lines) {
+          lines.splice(0, lines.length - lines)
+        }
         var textArea = document.getElementById(id);
         textArea.textContent = lines.join('\n');
         textArea.scrollTop = textArea.scrollHeight;
