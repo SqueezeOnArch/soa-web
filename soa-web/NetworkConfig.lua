@@ -75,11 +75,11 @@ function get(int, is_wireless)
 			local array = string.match(config.dns, "%((.*)%)") or ""
 			config.dns1, config.dns2, config.dns3 = string.match(array .. " '' ''", "'(.-)' '(.-)' '(.-)'")
 		end
-		if not conf.interface then
-			conf.interface = int
+		if not config.interface then
+			config.interface = int
 		end
-		if not conf.connection then
-			conf.connection = is_wireless and "wireless" or "ethernet"
+		if not config.connection then
+			config.connection = is_wireless and "wireless" or "ethernet"
 		end
 		config.psk = config.key
 		conf:close()
