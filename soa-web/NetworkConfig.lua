@@ -87,6 +87,8 @@ function get(int, is_wireless)
 		log.debug("unable to open: " .. configFilePrefix .. int)
 		config.dhcp = true
 		config.onboot = true
+		config.interface = int
+		config.connection = is_wireless and "wireless" or "ethernet"
 	end
 
 	return config
