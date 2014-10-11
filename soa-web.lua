@@ -878,6 +878,10 @@ function StorageHandler:post()
 
 			err = util.capture("sudo mount " .. (type and ("-t " .. type .. " ") or "") .. (opts and ("-o " .. opts .. " ") or "") ..
 							   spec .. " " .. mountp)
+
+			if err and string.match(opts, "%s") then
+				err = strings['storage']['options_space']
+			end
 		
 			-- if mount worked then persist, storing opts passed not those parsed from active mounts
 			if not err or err == "" then

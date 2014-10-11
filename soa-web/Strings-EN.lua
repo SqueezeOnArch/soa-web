@@ -287,6 +287,7 @@ return {
 		samba_tip = "Enable Samba server",
 		nb_name_tip = "Netbios name for samba file sharing",
 		nb_group_tip = "Workgroup for Samba file sharing",
+		options_space = "Mount options should not include spaces",
 		context =
 		"<ul><li>Use this menu to attach (mount) local and remote disks to your device for use with the internal Squeezebox Server.</li>" ..
 		"<li>The <i><b>Local&nbsp;Disk</b></i> section is used to attach local disks. Select one of the mountpoint options. This is the path where it will appear on the device file system. Select one of the disk options. You will not normally need to select the type of the disk as this is detected automatically from its format.  Click <i>Add</i> to attach the disk to the device. If this is sucessful then an entry will appear in the <i>Mounted&nbsp;File&nbsp;Systems</i> area at the top of the page otherwise an error will be shown. If your disk has multiple partitions you may need to try each disk option in turn to find the correct one for your files.</li>" ..
