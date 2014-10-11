@@ -193,7 +193,7 @@ function set(config, int, is_wireless)
 					   (config.dns3 and (" '" .. config.dns3 .. "'") or "") ..
 					   ")\n")
 			if config.domain then
-				config:write("DNSDomain='" .. config.domain .. "'\n")
+				conf:write("DNSDomain='" .. config.domain .. "'\n")
 			end
 		end
 		
