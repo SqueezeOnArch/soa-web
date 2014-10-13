@@ -75,6 +75,9 @@ function get(int, is_wireless)
 			local array = string.match(config.dns, "%((.*)%)") or ""
 			config.dns1, config.dns2, config.dns3 = string.match(array .. " '' ''", "'(.-)' '(.-)' '(.-)'")
 		end
+		if config.dnsdomain then
+			config.domain = config.dnsdomain
+		end
 		if not config.interface then
 			config.interface = int
 		end
