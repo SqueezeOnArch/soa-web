@@ -53,7 +53,7 @@ local templ_path  = path .. '/templ/'
 local static_path = path .. '/static/'
 
 -- languages supported
-local languages = { EN = true }
+local languages = { EN = true, IT = true }
 
 -- skin branding
 local skin = {
@@ -281,6 +281,20 @@ if string_chk or string_miss then
 				print("     EN: " .. en_text)
 				if string_chk then
 					print("     " .. lang .. ": " .. (str or "**** MISSING ****"))
+				end
+			end
+		end
+	end
+	if string_miss then
+		local header = false
+		for page, v in pairs(strings) do
+			for s, _ in pairs(v) do
+				if (EN[page] or {})[s] == nil then
+					if not header then
+						print("Not in EN:")
+						header = true
+					end
+					print("  " .. page .. " " .. s)
 				end
 			end
 		end
