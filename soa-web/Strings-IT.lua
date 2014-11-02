@@ -23,7 +23,7 @@ return {
 		context =
 		"<ul><li>Da questa pagina è possibile impostare i parametri relativi al sistema operativo Linux installato sul tuo dispositivo.</li>" ..
 		"<li><i><b>Hostname</b></i> consente di assegnare un nome al tuo dispositivo che potrebbe essere diverso dal nome del Player in uso. Questo nome potrebbe anche comparire su altri dispositivi che sono in grado di visualizzare i nomi di tutte le  macchine appartenenti alla tua Rete.</li>" ..
-		"<li><i><b>Localizzazione</b></i> consente di impostare il fuso orario e la lingua per la tua Nazione.</li>" ..
+		"<li><i><b>Localizzazione</b></i> consente di impostare il fuso orario per la tua Nazione.</li>" ..
 		"</ul>",
 	},
 	['network'] = {
@@ -78,7 +78,7 @@ return {
 		"<li><i><b>All'&nbsp;Avvio</b></i> consente l' attivazione dell' interfaccia quando il dispositivo viene avviato.  Si prega di attivare questa opzione almeno per una interfaccia.</li>" ..
 		"<li><i><b>DHCP</b></i> consente di ottenere un indirizzo IP direttamente dalla rete.  Si prega di deselezionare questa opzione se si desidera specificare un indirizzo IP statico.</li>" ..
 		"<li><i><b>Salva</b></i> consente di salvare le mofiche apportate, mentre <i>Disattiva&nbsp;Interfaccia&nbsp;/&nbsp;Attiva&nbsp;Interfaccia</i> consente di riavviare l' interfaccia con i nuovi parametri inseriti.</li></ul>",
-		context_wifi = "<ul><li>Per le reti senza fili è possibile selezionare quale rete utilizzare dalla lista <i>Nomi&nbsp;Rete</i> trovate, altrimenti puoi specificare il nome della tua Rete nel caso in cui si tratti di una rete nascosta. Una password WPA deve essere inoltre specificata.  Si prega di notare che al momento l' unico metodo di autentificazione supportato è quello WPA/WPA2 con chiave pre-shared.</li></ul>",
+		context_wifi = "<ul><li>Per le reti senza fili è possibile selezionare quale rete utilizzare dalla lista <i>Nome&nbsp;Rete</i> trovate, altrimenti puoi specificare il nome della tua Rete nel caso in cui si tratti di una rete nascosta. Una password WPA deve essere inoltre specificata.  Si prega di notare che al momento l' unico metodo di autentificazione supportato è quello WPA/WPA2 con chiave pre-shared.</li></ul>",
 		AT = "Austria",
 		AU = "Australia",
 		BE = "Belgio",
@@ -111,7 +111,7 @@ return {
 		['00'] = "Roaming",
 	},
 	['squeezelite'] = {
-		title = "Configurazione e Controllo dello Squeezelite Player",
+		title = "Configurazione e Controllo Squeezelite Player",
 		name = "Nome",
 		audio_output = "Uscita Audio",
 		mac  = "Indirizzo MAC",
@@ -272,7 +272,7 @@ return {
 		active = "Attivo",
 		inactive = "Inattivo",
 		samba = "Server Samba",
-		nb_name = "Nome del Server Samba",
+		nb_name = "Nome Server Samba",
 		nb_group = "Workgroup Samba",
 		samba_ro = "(samba solo lettura)",
 		samba_rw = "(samba scrittura)",
@@ -299,7 +299,7 @@ return {
 		"<li><b>Machine:/path</b> per una condivisione di tipo NFS con relativo <i>/path</i> presente su un NAS oppure un server col nome <i>Machine</i></li></ul>" ..
 		"<li>I file systems, se connessi fisicamente al dispositivo, verranno montati automaticamente al successivo riavvio del sistema.  Per la loro disconnessione si prega di cliccare sul pulsante <i>Elimina</i> che si trova nel riquadro <i>File&nbsp;Systems&nbsp;Montati</i>.</li>" ..
 		"<li>Se la tua libreria di file musicali contiene nomi di artisti, album o titoli con caratteri Unicode come accenti e dieresi, allora in questo caso dovresti aggiungere l' opzione <b>iocharset=utf8</b> nel relativo campo delle opzioni.</li>" ..
-		"<li>Il riquadro <i><b>Server&nbsp;Samba</b></i> è utilizzato per configurare il file di configurazione di Samba direttamente dal tuo dispositivo.  Tutti i dischi locali o condivisioni di rete montati tramite questo menú, saranno disponibili come file di condivisione su altri dispositivi appartenenti alla tua rete.  Assegna un <i>Nome Samba</i> unico per la tua Rete e un nome per il  <i>Workgroup Samba</i> per combaciare con le altre impostazioni dei tuoi dispositivi.</li>" ..
+		"<li>Il riquadro <i><b>Server&nbsp;Samba</b></i> è utilizzato per configurare il file di configurazione di Samba direttamente dal tuo dispositivo.  Tutti i dischi locali o condivisioni di rete montati tramite questo menú, saranno disponibili come file di condivisione su altri dispositivi appartenenti alla tua rete.  Assegna un <i>Nome Server Samba</i> unico per la tua Rete e un nome per il  <i>Workgroup Samba</i> per combaciare con le altre impostazioni dei tuoi dispositivi.</li>" ..
 		"</ul>",
 	},
 	['shutdown'] = {
@@ -328,8 +328,8 @@ return {
 		update = "Aggiorna",
 		update_desc = "Aggiorna il sistema e tutti i componenti installati",
 		context =
-		"<ul><li>Utililizza questo menú per installare o rimuovere componenti facoltativi di Squeeze on Arch components e per aggiornare i componenti già installati.</li>" ..
-		"<li><i><b>Installa/Rimuovi</b></i> consente di aggiungere o rimuovere componenti facoltativi. Seleziona i componenti che desideri installare e poi premi il pulsante <i>Installa/Rimuovi</i>.  Componenti che possono essere installati sono:" ..
+		"<ul><li>Utililizza questo menú per installare o rimuovere componenti facoltativi di Squeeze on Arch e per aggiornare i componenti già installati.</li>" ..
+		"<li><i><b>Installa/Rimuovi</b></i> consente di aggiungere o rimuovere componenti facoltativi. Seleziona i componenti che desideri installare e poi premi il pulsante <i>Installa/Rimuovi</i>.  I componenti che possono essere installati sono:" ..
 		"<ul><li>Squeezelite - applicazione necessaria per la riproduzione audio dal tuo dispositivo</li>" ..
 		"<li>Jivelite - interfaccia HDMI per il tuo dispositivo</li>" ..
 		"<li>Squeeze Server 7.8 - versione stabile di Logitech media server 7.8</li>"..
