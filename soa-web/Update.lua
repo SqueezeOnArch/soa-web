@@ -35,7 +35,8 @@ local opts = {
 }
 local kernels = {
 	{ 'linux-wandboard-soa', 'linux-wandboard' },
-	{ 'linux-sun7i-soa',     'linux-sun7i'     }
+	{ 'linux-sun7i-soa',     'linux-sun7i'     },
+	{ 'linux-raspberrypi-latest', 'linux-raspberrypi' }
 }
 local keys_opts = {}
 

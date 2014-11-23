@@ -323,7 +323,7 @@ return {
 		server78 = "Squeeze Server 7.8",
 		server79 = "Squeeze Server 7.9",
 		jivelite = "Jivelite",
-		kernel = "Custom Kernel",
+		kernel = "Updated Kernel",
 		update = "Update",
 		update_desc = "Update system and all installed components",
 		context =
@@ -333,7 +333,7 @@ return {
 		"<li>Jivelite - HDMI user interface (install for user interface on your device)</li>" ..
 		"<li>Squeeze Server 7.8 - stable version of Logitech media server 7.8</li>"..
 		"<li>Squeeze Server 7.9 - beta version of Logitech media server 7.9 which tracks ongoing developments and may be unstable.  Note: only one version of Squeeze Server can be installed at one time.</li>" ..
-		"<li>Custom Kernel - SoA updated linux kernel with additional capablities such as enhanced spdif support.</li>" ..
+		"<li>Updated Kernel - Latest arch linux kernel or SoA updated linux kernel with additional capablities such as enhanced spdif support (depending on device).</li>" ..
 		"</ul>" ..
 		"<li>Select <i><b>Update</b></i> to update the Arch linux system and all installed Squeeze on Arch software components.  This can take some time.</li>" ..
 		"<li>Progress activity for installation and updates are shown in the box below.  You may pause/unpause this display by clicking in the box.</li></ul>",
