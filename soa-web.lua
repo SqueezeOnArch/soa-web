@@ -668,7 +668,7 @@ function SqueezeliteHandler:_response(err)
 	local status = util.capture('systemctl status squeezelite.service')
 	if status then
 		for line in string.gmatch(status, "(.-)\n") do
-			local loaded, enabled = string.match(line, "Loaded: (.-) %(.-; (.-)%)")
+			local loaded, enabled = string.match(line, "Loaded: (.-) %(.-; (.-)[;%)]")
 			local active, running = string.match(line, "Active: (.-) %((.-)%)")
 			if loaded and enabled then
 				t['p_status'] = loaded .. " / " .. enabled
@@ -755,7 +755,7 @@ function SqueezeserverHandler:_response()
 	local status = util.capture('systemctl status logitechmediaserver.service')
 	if status then
 		for line in string.gmatch(status, "(.-)\n") do
-			local loaded, enabled = string.match(line, "Loaded: (.-) %(.-; (.-)%)")
+			local loaded, enabled = string.match(line, "Loaded: (.-) %(.-; (.-)[;%)]")
 			local active, running = string.match(line, "Active: (.-) %((.-)%)")
 			if loaded and enabled then
 				t['p_status'] = loaded .. " / " .. enabled
