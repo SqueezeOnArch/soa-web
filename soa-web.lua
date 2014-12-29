@@ -42,7 +42,7 @@ local strings, language
 -- configuration
 
 -- release version id
-local release = "0.1"
+local release = "1.0"
 
 -- server port
 local PORT = 8081
