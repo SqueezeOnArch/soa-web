@@ -26,6 +26,7 @@ module(...)
 local scriptDir     = "/root/soa-aur/"
 local updateScript  = "soa-update-all.sh"
 local installScript = "soa-installremove-components.sh"
+local cleanScript   = "soa-clean.sh"
 local soaReinstallScript = "/root/soa-reinstall.sh"
 
 local opts = {
@@ -125,6 +126,11 @@ function installremove(install, remove)
 		log.debug("cmd: " .. cmd)
 		os.execute("sudo " .. cmd .. " &>/tmp/soa-build.log &")
 	end
+end
+
+function clean()
+	log.debug("clean")
+	os.execute("sudo " .. scriptDir .. cleanScript .. " &>/tmp/soa-build.log &")
 end
 
 function update()
