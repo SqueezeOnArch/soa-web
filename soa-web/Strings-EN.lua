@@ -339,7 +339,7 @@ return {
 		"<li>Squeeze Server 7.9 - beta version of Logitech media server 7.9 which tracks ongoing developments and may be unstable.  Note: only one version of Squeeze Server can be installed at one time.</li>" ..
 		"<li>Updated Kernel - Latest arch linux kernel or SoA updated linux kernel with additional capablities such as enhanced spdif support (depending on device).</li>" ..
 		"</ul>" ..
-		"<li><i><b>Reinstall SoA</b></i> allows you to completely reinstall Squeeze on Arch to the latest version.  This will erase your device and restart the install process.  Please refresh your browser after 30 seconds to start the install process.</li>" ..
+		"<li><i><b>Reinstall SoA</b></i> allows you to completely reinstall Squeeze on Arch.  This will erase your device and restart the install process.  Please refresh your browser after 30 seconds to start the install process.</li>" ..
 		"<li>Progress activity for installation and updates are shown in the box below.  You may pause/unpause this display by clicking in the box.</li></ul>",
 	},
 	['header'] = {
