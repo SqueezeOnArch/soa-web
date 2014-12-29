@@ -1038,8 +1038,12 @@ function UpdateHandler:post()
 		Update.installremove(install, remove)
 	end
 
-	if self:get_argument("clean", false) then
+	if self:get_argument("clean1", false) then
 		Update.clean()
+	end
+
+	if self:get_argument("clean2", false) then
+		Update.clean(true)
 	end
 
 	if self:get_argument("reinstall", false) then

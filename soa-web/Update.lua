@@ -128,9 +128,9 @@ function installremove(install, remove)
 	end
 end
 
-function clean()
+function clean(force)
 	log.debug("clean")
-	os.execute("sudo " .. scriptDir .. cleanScript .. " &>/tmp/soa-build.log &")
+	os.execute("sudo " .. scriptDir .. cleanScript .. (force and " -f" or "") .. " &>/tmp/soa-build.log &")
 end
 
 function update()

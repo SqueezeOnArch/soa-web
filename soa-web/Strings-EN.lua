@@ -325,7 +325,8 @@ return {
 		jivelite = "Jivelite",
 		kernel = "Updated Kernel",
 		update = "Update",
-		clean = "Clean",
+		clean1 = "Partial Clean",
+		clean2 = "Full Clean",
 		update_desc = "Update system and all installed components",
 		reinstall = "Reinstall SoA",
 		reinstall_desc = "Erase and complete reinstall Squeeze on Arch",
@@ -333,7 +334,7 @@ return {
 		context =
 		"<ul><li>Use this menu to update installed components and to install or remove optional Squeeze on Arch components.</li>" ..
 		"<li>Select <i><b>Update</b></i> to update the Arch linux system and all installed Squeeze on Arch software components.  This can take some time.</li>" ..
-		"<li>Select <i><b>Clean</b></i> to remove downloaded files used by the update process.  This saves disk space and may be necessary if errors occur due when downloading update files.</li>" ..
+		"<li>Select <i><b>Partial / Full Clean</b></i> to remove downloaded files used by the update process.  This saves disk space and may be necessary if errors occur due when downloading.  (Partial clean removes less files should be tried first.)</li>" ..
 		"<li><i><b>Install/Remove</b></i> allows you to add or remove optional components.  Select components to install and then press the <i>Install/Remove</i> button.  Installable options are:" ..
 		"<ul><li>Squeezelite - audio playback application (required if you want audio playback)</li>" ..
 		"<li>Jivelite - HDMI user interface (install for user interface on your device)</li>" ..
