@@ -329,7 +329,7 @@ return {
 		clean2 = "Full Clean",
 		update_desc = "Update system and all installed components",
 		reinstall = "Reinstall SoA",
-		reinstall_desc = "Erase and complete reinstall Squeeze on Arch",
+		reinstall_desc = "Erase and completely reinstall Squeeze on Arch",
 		reinstall_check = "Erase device and completely reinstall Squeeze on Arch?",
 		context =
 		"<ul><li>Use this menu to update installed components and to install or remove optional Squeeze on Arch components.</li>" ..
