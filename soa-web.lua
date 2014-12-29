@@ -180,6 +180,7 @@ cfg.storage = StorageConfig:available()
 if cfg.update then
 	local installed = Update.installed()
 	cfg.squeezelite, cfg.squeezeserver = installed.squeezelite, installed.squeezeserver
+	cfg.soa_reinstall = installed.reinstall
 else
 	cfg.squeezelite, cfg.squeezeserver = true, true
 end
@@ -203,6 +204,7 @@ if test_mode then
 	cfg.update, cfg.storage = true, true
 	cfg.wired = cfg.wired or "test"
 	cfg.wireless = cfg.wireless or "test"
+	cfg.soa_reinstall = true
 end
 
 ------------------------------------------------------------------------------------------
@@ -1010,6 +1012,8 @@ function UpdateHandler:_response(install, remove)
 		end
 	end
 
+	t['p_reinstall'] = cfg.soa_reinstall
+
 	setmetatable(t, { __index = strings['update'] })
 	self:renderResult('update.html', t)
 end
@@ -1032,6 +1036,10 @@ function UpdateHandler:post()
 			install[o] = self:get_argument(o, false) and not existing[o]
 		end
 		Update.installremove(install, remove)
+	end
+
+	if self:get_argument("reinstall", false) then
+		Update.reinstall()
 	end
 
 	self:_response(install, remove)

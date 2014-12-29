@@ -26,6 +26,7 @@ module(...)
 local scriptDir     = "/root/soa-aur/"
 local updateScript  = "soa-update-all.sh"
 local installScript = "soa-installremove-components.sh"
+local soaReinstallScript = "/root/soa-reinstall.sh"
 
 local opts = {
 	squeezelite = { 'squeezelite', 'squeezelite' },
@@ -78,6 +79,8 @@ function installed()
 		end
 		if keys_opts[#keys_opts] == 'kernel' then break	end
 	end
+	-- test for reinstall soa script
+	t.reinstall = lfs.attributes(soaReinstallScript) ~= nil
 	return t
 end
 
@@ -127,4 +130,9 @@ end
 function update()
 	log.debug("update")
 	os.execute("sudo " .. scriptDir .. updateScript .. " &>/tmp/soa-build.log &")
+end
+
+function reinstall()
+	log.debug("reinstall soa")
+	os.execute("sudo " .. soaReinstallScript .. " yes &>/tmp/soa-build.log &")
 end

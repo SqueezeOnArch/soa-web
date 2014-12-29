@@ -75,6 +75,15 @@ window.onload = function() {
 	
 	<form id="system" name="system" action="/update.html" method="post">
 	  <fieldset>
+		<legend >{{{update}}}</legend>
+		<div class="entry">{{{update_desc}}}</div>
+	  </fieldset>
+	  <fieldset>
+		<div class="entry submit">
+		  <input type="submit" id="update" name="update" value="{{{update}}}"/>
+		</div>
+	  </fieldset>
+	  <fieldset>
 		<legend >{{{installremove}}}</legend>
 		<div class="entry">
 		  <div class="label">{{{squeezelite}}}</div>
@@ -119,15 +128,17 @@ window.onload = function() {
 		  <input type="submit" id="updateremove" name="installremove" value="{{{installremove}}}"/>
 		</div>
 	  </fieldset>
+	  {{#p_reinstall}}
 	  <fieldset>
-		<legend >{{{update}}}</legend>
-		<div class="entry">{{{update_desc}}}</div>
+		<legend >{{{reinstall}}}</legend>
+		<div class="entry">{{{reinstall_desc}}}</div>
 	  </fieldset>
 	  <fieldset>
 		<div class="entry submit">
-		  <input type="submit" id="update" name="update" value="{{{update}}}"/>
+		  <input type="submit" id="reinstall" name="reinstall" value="{{{reinstall}}}" onclick="return confirm('{{{reinstall_check}}}')"/>
 		</div>
 	  </fieldset>
+	  {{/p_reinstall}}
 	</form>
 
   </div>	

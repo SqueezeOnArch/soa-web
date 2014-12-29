@@ -326,8 +326,12 @@ return {
 		kernel = "Updated Kernel",
 		update = "Update",
 		update_desc = "Update system and all installed components",
+		reinstall = "Reinstall SoA",
+		reinstall_desc = "Erase and complete reinstall Squeeze on Arch",
+		reinstall_check = "Erase device and completely reinstall Squeeze on Arch?",
 		context =
-		"<ul><li>Use this menu to install or remove optional Squeeze on Arch components and to update installed components.</li>" ..
+		"<ul><li>Use this menu to update installed components and to install or remove optional Squeeze on Arch components.</li>" ..
+		"<li>Select <i><b>Update</b></i> to update the Arch linux system and all installed Squeeze on Arch software components.  This can take some time.</li>" ..
 		"<li><i><b>Install/Remove</b></i> allows you to add or remove optional components.  Select components to install and then press the <i>Install/Remove</i> button.  Installable options are:" ..
 		"<ul><li>Squeezelite - audio playback application (required if you want audio playback)</li>" ..
 		"<li>Jivelite - HDMI user interface (install for user interface on your device)</li>" ..
@@ -335,7 +339,7 @@ return {
 		"<li>Squeeze Server 7.9 - beta version of Logitech media server 7.9 which tracks ongoing developments and may be unstable.  Note: only one version of Squeeze Server can be installed at one time.</li>" ..
 		"<li>Updated Kernel - Latest arch linux kernel or SoA updated linux kernel with additional capablities such as enhanced spdif support (depending on device).</li>" ..
 		"</ul>" ..
-		"<li>Select <i><b>Update</b></i> to update the Arch linux system and all installed Squeeze on Arch software components.  This can take some time.</li>" ..
+		"<li><i><b>Reinstall SoA</b></i> allows you to completely reinstall Squeeze on Arch to the latest version.  This will erase your device and restart the install process.  Please refresh your browser after 30 seconds to start the install process.</li>" ..
 		"<li>Progress activity for installation and updates are shown in the box below.  You may pause/unpause this display by clicking in the box.</li></ul>",
 	},
 	['header'] = {
