@@ -23,7 +23,7 @@ local util, cfg, log = util, cfg, log
 
 module(...)
 
-local scriptDir     = "/root/soa-aur/"
+local scriptDir     = "/aur/soa-aur/"
 local updateScript  = "soa-update-all.sh"
 local installScript = "soa-installremove-components.sh"
 local cleanScript   = "soa-clean.sh"
@@ -124,18 +124,18 @@ function installremove(install, remove)
 	end
 	if required then
 		log.debug("cmd: " .. cmd)
-		os.execute("sudo " .. cmd .. " &>/tmp/soa-build.log &")
+		os.execute("sudo -u aur " .. cmd .. " &>/tmp/soa-build.log &")
 	end
 end
 
 function clean(force)
 	log.debug("clean")
-	os.execute("sudo " .. scriptDir .. cleanScript .. (force and " -f" or "") .. " &>/tmp/soa-build.log &")
+	os.execute("sudo -u aur " .. scriptDir .. cleanScript .. (force and " -f" or "") .. " &>/tmp/soa-build.log &")
 end
 
 function update()
 	log.debug("update")
-	os.execute("sudo " .. scriptDir .. updateScript .. " &>/tmp/soa-build.log &")
+	os.execute("sudo -u aur " .. scriptDir .. updateScript .. " &>/tmp/soa-build.log &")
 end
 
 function reinstall()
