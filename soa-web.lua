@@ -2,7 +2,7 @@
 
 -- Squeeze on Arch (SOA) Web Configuration and Control Interface
 --
--- Copyright (C) 2014 Adrian Smith <triode1@btinternet.com>
+-- Copyright (C) 2014-2015 Adrian Smith <triode1@btinternet.com>
 --
 -- This file is part of soa-web.
 --
