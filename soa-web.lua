@@ -329,7 +329,8 @@ local service_actions = {
 
 function PageHandler:renderResult(template, t)
 	local header_t = { context = t['context'], p_wired = cfg.wired, p_wireless = cfg.wireless, p_update = cfg.update,
-					   p_squeezelite = cfg.squeezelite, p_squeezeserver = cfg.squeezeserver, p_storage = cfg.storage }
+					   p_squeezelite = cfg.squeezelite, p_squeezeserver = cfg.squeezeserver,
+					   p_storage = cfg.storage and cfg.squeezeserver }
 	setmetatable(header_t, { __index = strings['header'] })
 	self:write( templ:render('header.html', header_t ) )
 	self:write( templ:render(template, t) )
