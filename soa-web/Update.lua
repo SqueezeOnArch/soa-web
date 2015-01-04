@@ -32,8 +32,8 @@ local soaReinstallScript = "/root/soa-reinstall.sh"
 local opts = {
 	squeezelite = { 'squeezelite', 'squeezelite' },
 	jivelite    = { 'jivelite' },
-	server78    = { 'logitechmediaserver', 'squeezeserver' },
-	server79    = { 'logitechmediaserver-lms', 'squeezeserver' }
+	server78    = { 'logitechmediaserver-7.8-lms', 'squeezeserver' },
+	server79    = { 'logitechmediaserver-7.9-lms', 'squeezeserver' }
 }
 local kernels = {
 	{ 'linux-wandboard-soa', 'linux-wandboard' },
