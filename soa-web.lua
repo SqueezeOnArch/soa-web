@@ -711,6 +711,18 @@ function SqueezeliteHandler:_response(err)
 		table.insert(t['p_devices'], 1, { device = config.device, selected = "selected" })
 	end
 
+	t['p_vol_controls'] = { { } }
+	local mixer_info = util.capture("squeezelite " .. (config.device and ("-o " .. config.device) or "") .. " -L")
+	if mixer_info then
+		for line in string.gmatch(mixer_info, "(.-)\n") do
+			local id = string.match(line, "%s%s%s(.*)")
+			if id then
+				table.insert(t['p_vol_controls'], { control = id, selected = (id == config.vol_control and "selected" or "") })
+			end
+		end
+	end
+	t['p_vol_functions'] = _sel(config.vol_function, strings['squeezelite'], { { ["U"] = "vol_max" }, { ["V"] = "vol_adjust" } })
+
 	setmetatable(t, { __index = strings['squeezelite'] })
 	self:renderResult('squeezelite.html', t)
 end

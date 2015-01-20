@@ -173,6 +173,23 @@ window.onload = function() {
 		  </div>
 		</div>
 		<div class="entry">
+		  <label for="vol_control" class="label">{{{alsa_volume}}}</label>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{volume_control_tip}}}">
+			<select class="input input-34" name="vol_control" id="vol_control">
+			  {{#p_vol_controls}}
+			  <option value="{{{control}}}" {{{selected}}}>{{{control}}}</option>
+			  {{/p_vol_controls}}
+			</select>
+		  </div>
+		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{volume_function_tip}}}">
+			<select class="input input-4" name="vol_function" id="vol_function">
+			  {{#p_vol_functions}}
+			  <option value="{{{val}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_vol_functions}}
+			</select>
+		  </div>
+		</div>
+		<div class="entry">
 		  <label for="rate" class="label">{{{rate}}}</label>
 		  <div class="features simptip-position-bottom simptip-smooth" data-tooltip="{{{rate_tip}}}">
 			<input class="input input-34" type="text" name="rate" value="{{{p_rate}}}" id="rate" />

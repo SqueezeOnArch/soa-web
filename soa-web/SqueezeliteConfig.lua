@@ -28,7 +28,7 @@ local configFile    = "/etc/squeezelite.conf"
 function params()
 	return {
 		'name', 'device', 'alsa_buffer', 'alsa_period', 'alsa_format', 'alsa_mmap', 'rate', 'rate_delay', 'dop', 'dop_delay',
-		'vis', 'resample',
+		'vol_function', 'vol_control', 'vis', 'resample',
 		'resample_recipe', 'resample_flags', 'resample_attenuation', 'resample_precision',
 		'resample_end', 'resample_start', 'resample_phase',
 		'loglevel_slimproto', 'loglevel_stream', 'loglevel_decode', 'loglevel_output',
@@ -63,6 +63,9 @@ function get()
 		if string.match(line, "DOP") then
 			c.dop = string.match(line, '^DOP="%-D') and "1" or false
 			c.dop_delay = string.match(line, '^DOP="%-D%s(.-)"')
+		end
+		if string.match(line, "VOLUME") then
+			c.vol_function, c.vol_control = string.match(line, '^VOLUME="%-([UV])%s' .. "'(.-)'")
 		end
 		if string.match(line, "UPSAMPLE") then
 			c.resample = string.match(line, '^UPSAMPLE="%-u')
@@ -238,6 +241,9 @@ function set(c)
 			outconf:write('DOP="-D ' .. c.dop_delay .. '"\n')
 		elseif c.dop then
 			outconf:write('DOP="-D"\n')
+		end
+		if c.vol_function and c.vol_control then
+			outconf:write('VOLUME="-' .. c.vol_function .. ' ' .. "'" .. c.vol_control .. "'" .. '"\n')
 		end
 		
 		outconf:close()

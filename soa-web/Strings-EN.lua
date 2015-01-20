@@ -135,6 +135,9 @@ return {
 		bit_32 = "32 bit",
 		mmap_off = "No MMAP",
 		mmap_on = "MMAP",
+		alsa_volume = "Alsa Volume",
+		vol_max = "Max",
+		vol_adjust = "Adjust",
 		dop_supported = "Device supports DoP",
 		name_tip = "Player name (optional)",
 		device_tip = "Select output device",
@@ -142,6 +145,8 @@ return {
 		alsa_period_tip = "Alsa period count or size in bytes (optional)",
 		alsa_format_tip = "Alsa sample format (optional)",
 		alsa_mmap_tip = "Alsa MMAP support (optional)",
+		volume_control_tip = "Alsa volume control to adjust (optional)",
+		volume_function_tip = "Max to set to alsa control to maximum and use software volume within player, Adjust to use alsa control for player volume (optional)",
 		rate_tip = "Max sample rate supported or comma separated list of sample rates (optional)",
 		rate_delay_tip = "Delay when switching between sample rates in ms (optional)",
 		dop_tip = "Enable DSD over PCM (DoP)",
@@ -212,7 +217,7 @@ return {
 		error_mac = "Error setting MAC Address",
 		error_server = "Error settting Server",
 		context = 
-		"<ul><li>The <i><b>Status</b></i> area at the top of the page shows the current Squeezelite pPlayer status and may be refreshed by pressing the <i>Refresh</i> button. The player will be reported as <i>active / running</i> if it is running correctly. If it fails to show this then check the configuration options and restart the player.</li>" ..
+		"<ul><li>The <i><b>Status</b></i> area at the top of the page shows the current Squeezelite Player status and may be refreshed by pressing the <i>Refresh</i> button. The player will be reported as <i>active / running</i> if it is running correctly. If it fails to show this then check the configuration options and restart the player.</li>" ..
 		"<li>Configuration options are specified in the fields to the left.  Update each field and click <i>Save</i> to store them or <i>Save&nbsp;and&nbsp;Restart</i> to store them and then restart the player using the new options.</li>" ..
 		"<li><i><b>Name</b></i> allows you to specify the player name.  If you leave it blank, you can set it from within Squeezebox Server.</i>" ..
 		"<li><i><b>Audio Device</b></i> specifies which audio output device to use and should always be set.  You should normally prefer devices with names starting <i>hw:</i> to directly drive the hardware output device.  If multiple devices are listed, try each device in turn and restart the player each time to find the correct device for your DAC.</li>" ..
@@ -223,6 +228,7 @@ return {
 		"<li>Alsa <i>sample format</i> number of bits of data sent to Alsa for each sample - try 16 if other values do not work.</li>" ..
 		"<li>Alsa <i>MMAP</i> enables or disables Alsa MMAP mode which reduces cpu load, try disabling if the player fails to start.</li>" ..
 		"</ul>" ..
+		"<li><i><b>Alsa Volume</b></i> allows you to specify how player volume is controlled.  By default volume is processed within Squeezelite Player.  Use this option to adjust the linux audio (Alsa) volume for your device if you do not get full volume with the default setting.  You can select a linux volume control for your output device and then define whether it should be unmuted and set to 'Max' volume, or whether it should be adjusted in line with the volume control for the player.</li>" ..
 		"<li><i><b>Sample&nbsp;Rates</b></i> allows you to specify the sample rates supported by the device so that it does not need to be present when Squeezelite is started.  Ether specify a single <i>maximum</i> sample rate, or specify all supported rates separated by commas.  You may also specify a delay in ms to add when changing sample rates if you DAC requires this.</li>" ..
 		"<li><i><b>Dop</b></i> enables you to select that your DAC supports DSD over PCM (DoP) playback. You may also specify a delay in ms when switching between PCM and DoP modes.</li></ul>",
 		context_resample = 
