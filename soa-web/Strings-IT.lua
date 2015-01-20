@@ -324,19 +324,26 @@ return {
 		server78 = "Squeeze Server 7.8",
 		server79 = "Squeeze Server 7.9",
 		jivelite = "Jivelite",
-		kernel = "Custom Kernel",
+		kernel = "Aggiorna  Kernel",
 		update = "Aggiorna",
+		clean1 = "Aggiorna Parzialmente",
+		clean2 = "Aggiorna Totalmente",
 		update_desc = "Aggiorna il sistema e tutti i componenti installati",
+		reinstall = "Reinstalla SoA",
+		reinstall_desc = "Cancella e rimuovi completamente Squeeze on Arch",
+		reinstall_check = "Cancella dispositivo e reinstalla completamente Squeese on Arch",
 		context =
 		"<ul><li>Utililizza questo menú per installare o rimuovere componenti facoltativi di Squeeze on Arch e per aggiornare i componenti già installati.</li>" ..
+		"<li>Seleziona <i><b>Aggiorna</b></i> per aggiornare il sistema linux Arch e tutti i componenti Squeeze on Arch installati.  Questa operazione potrebbero richiedere  del tempo per essere eseguita.</li>" ..
+		"<li>Seleziona <i><b>Aggiorna Parzialmente / Totalmente</b></i> per eliminare i file scaricati usati per il processo di aggiornamento del sistema. Questo consente di liberare spazio sul disco e potrebbe essere necessario qualora si verifichino errori durante il download dei file.  (L'aggiornamento parziale elimina meno file e dovrebbe essere utilizzato per primo.)</li>" ..
 		"<li><i><b>Installa/Rimuovi</b></i> consente di aggiungere o rimuovere componenti facoltativi. Seleziona i componenti che desideri installare e poi premi il pulsante <i>Installa/Rimuovi</i>.  I componenti che possono essere installati sono:" ..
 		"<ul><li>Squeezelite - applicazione necessaria per la riproduzione audio dal tuo dispositivo</li>" ..
 		"<li>Jivelite - interfaccia HDMI per il tuo dispositivo</li>" ..
 		"<li>Squeeze Server 7.8 - versione stabile di Logitech media server 7.8</li>"..
 		"<li>Squeeze Server 7.9 - versione beta di Logitech media server 7.9 che implementa funzionalità sperimentali e che quindi potrebbe essere instabile.  Nota: è possibile installare solo una versione di Squeeze Server alla volta.</li>" ..
-		"<li>Custom Kernel - è un kernel linux aggiornato con funzionalità aggiuntive come il supporto audio spdif.</li>" ..
+		"<li>Aggiorna Kernel - è un kernel linux aggiornato con funzionalità aggiuntive come il supporto audio spdif.</li>" ..
 		"</ul>" ..
-		"<li>Seleziona <i><b>Aggiorna</b></i> per aggiornare il sistema linux Arch e tutti i componenti Squeeze on Arch installati.  Questa operazione potrebbero richiedere del tempo per essere eseguita.</li>" ..
+		"<li><i><b>Reinstalla SoA</b></i> consente di reinstallare completamente Squeeze on Arch cancellando il tuo dispositivo e riavviando il processo di installazione. Si prega di ricaricare la finestra del browser 30 secondi dopo l'inizio del processo di installazione.</li>" ..
 		"<li>Informazioni sul progresso dell' installazione e degli aggiornamenti in corso vengono mostrati nel riquadro in basso.  Puoi arrestare o riavviare la schermata premendo sul riquadro.</li></ul>",
 	},
 	['header'] = {
@@ -349,7 +356,7 @@ return {
 		help = "Aiuto",
 		squeezelite = "Squeezelite Player",
 		squeezeserver = "Squeeze Server",
-		update = "Update"
+		update = "Aggiorna"
 	},
 	['footer'] = {
 		copyright = "Copyright",
