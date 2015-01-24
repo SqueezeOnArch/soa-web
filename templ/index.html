@@ -1,10 +1,10 @@
-<form id="Index" name="locale" action="/index.html" method="get">
+<form id="Index" name="language" action="/index.html" method="get">
   <div align="right">
   	<p class="language">
 	{{{language}}}:
-	<select name="locales" class="language" OnChange="location.href=locale.locales.options[selectedIndex].value">
+	<select name="languages" class="language" OnChange="location.href=language.languages.options[selectedIndex].value">
 	  {{#p_languages}}
-	  <option value="/index.html?locale={{lang}}" {{selected}}>{{{desc}}}</option>
+	  <option value="/index.html?lang={{lang}}" {{selected}}>{{{desc}}}</option>
 	  {{/p_languages}}
 	</select>
 	</p>

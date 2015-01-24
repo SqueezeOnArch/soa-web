@@ -51,6 +51,16 @@
 			</select>
 		  </div>
 		</div>
+		<div class="entry">
+		  <div class="features simptip-position-right simptip-smooth" data-tooltip="{{{locale_tip}}}">
+			<label for="locale" class="label">{{{locale}}}</label>
+			<select class="input" name="locale" id="locale">
+			  {{#p_locales}}
+			  <option value="{{{loc}}}" {{{selected}}}>{{{desc}}}</option>
+			  {{/p_locales}}
+			</select>
+		  </div>
+		</div>
 	  </fieldset>
 	  <fieldset>
 		<div class="entry submit">

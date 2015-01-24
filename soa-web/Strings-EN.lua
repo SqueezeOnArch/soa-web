@@ -17,13 +17,15 @@ return {
 		hostname = "Hostname",
 		location = "Location",
 		timezone = "Time Zone",
+		locale = "Locale",
 		hostname_tip = "Hostname for your device",
 		timezone_tip = "Select the timezone appropriate to your location",
 		locale_tip = "Select the locale appropriate for your location",
 		context =
 		"<ul><li>Use this page to set the configurations for the linux operating system running within your device.</li>" ..
 		"<li><i><b>Hostname</b></i> sets the name for your device. This may be different from the name given to the player instance running on the device. You are likely to see this name from other devices on your network if they show names of machines on your network.</li>" ..
-		"<li><i><b>Location</b></i> settings enable the timezone of the device to your location.</li>" ..
+		"<li><i><b>Time Zone</b></i> enables you to set the timezone of your device.</li>" ..
+		"<li><i><b>Locale</b></i> enables you to set linux locale for your device.  This is normally only needed if you wish to run squeezebox server on the device and have files with accent characters in their filenames or tags.  It can take a few seconds to set and requires a reboot after setting.</li>" ..
 		"</ul>",
 	},
 	['network'] = {

@@ -365,7 +365,7 @@ local installProgressFile = cfg.tmpdir .. "/soa-install-progress"
 
 -- index.html
 function IndexHandler:get()
-	local lang = self:get_argument('locale', false)
+	local lang = self:get_argument('lang', false)
 	if lang and languages[lang] then
 		log.debug("set language: " .. lang)
 		load_strings(lang)
@@ -393,13 +393,9 @@ end
 ------------------------------------------------------------------------------------------
 
 -- system.html
-local info_files = {
-	hostname       = '/etc/hostname',
-}
-
-local localefile  = '/etc/locale.conf'
-local localesfile = '/usr/share/system-config-language/locale-list'
 local zonefiles   = '/usr/share/zoneinfo/'
+local localefile  = '/etc/locale.conf'
+local localesfile = '/etc/locale.gen'
 
 function _zones(dir)
 	local attr = lfs.attributes(zonefiles .. (dir or ""))
@@ -422,17 +418,28 @@ function _zones(dir)
 	return t
 end
 
+function _locale()
+	local file = io.open(localefile, "r")
+	local locale
+	if file then
+		for line in file:lines() do
+			if string.match(line, "LANG") then
+				locale = string.match(line, 'LANG=(.*)')
+			end
+		end
+		file:close()
+	end
+	return locale
+end
+
 function SystemHandler:_response()
 	local t = {}
-	
-	for k, v in pairs(info_files) do
-		local file = io.open(v, 'r')
-		if file then
-			t['p_' .. k] = file:read("*l") or ""
-			file:close()
-		else
-			t['p_' .. k] = "."
-		end
+
+	t['p_hostname'] = ""
+	local file = io.open("/etc/hostname", 'r')
+	if file then
+		t['p_hostname'] = file:read("*l")
+		file:close()
 	end
 	
 	local zones = _zones()
@@ -446,25 +453,19 @@ function SystemHandler:_response()
 		table.insert(t['p_zones'], { zone = v, selected = (v == zone and "selected" or "") })
 	end
 	
-	local cur_locale
-	local file = io.open(localefile, "r")
-	if file then
-		for line in file:lines() do
-			if string.match(line, "LANG") then
-				cur_locale = string.match(line, 'LANG="(.-)"')
-			end
-		end
-		file:close()
-	end
+	local cur_locale = _locale()
 	t['p_locale'] = cur_locale
-	
-	t['p_locales'] = {}
+
+	t['p_locales'] = { { } }
 	local file = io.open(localesfile, "r")
 	if file then
 		for line in file:lines() do
-			local locale, desc = string.match(line, "^(.-)%s.-%s.-%s(.*)$")
-			if locale and desc then
-				table.insert(t['p_locales'], { loc = locale, selected = (locale == cur_locale and "selected" or ""), desc = desc })
+			local locale = line
+			if not string.match(line, "^# ") then
+				local locale = string.match(line, "^#(.-)%s") or string.match(line, "(.-)%s")
+				if locale then
+					table.insert(t['p_locales'], { loc = locale, selected = (locale == cur_locale and "selected" or ""), desc = locale })
+				end
 			end
 		end
 		file:close()
@@ -479,18 +480,26 @@ function SystemHandler:get()
 end
 
 function SystemHandler:post()
-	local tmpFile = cfg.tmpdir .. '/tmpfile.txt-luagui'
+	local hostname  = self:get_argument("hostname", false)
+	local newzone   = self:get_argument("timezone", false)
+	local newlocale = self:get_argument("locale", false)
 
-	local hostname = self:get_argument("hostname", false)
 	if hostname then
 		log.debug("setting hostname to " .. hostname)
 		util.execute("sudo hostnamectl set-hostname " .. hostname)
+		util.execute("sudo systemctl restart avahi-daemon")
 	end
 	
-	local newzone = self:get_argument("timezone", false)
 	if newzone then
 		log.debug("setting timezone to " .. newzone)
 		util.execute("sudo ln -sf /usr/share/zoneinfo/" .. newzone .. " /etc/localtime")
+	end
+
+	if newlocale and newlocate ~= _locale() then
+		log.debug("setting locale to " .. newlocale)
+		util.execute("sudo sed -i 's/#" .. newlocale .. "/" .. newlocale .. "/' " .. localesfile)
+		util.execute("sudo locale-gen")
+		util.execute("sudo localectl set-locale LANG=" .. newlocale)
 	end
 	
 	self:_response()
