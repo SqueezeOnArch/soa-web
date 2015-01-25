@@ -31,6 +31,7 @@ local soaReinstallScript = "/root/soa-reinstall.sh"
 
 local opts = {
 	squeezelite = { 'squeezelite', 'squeezelite' },
+	ffmpeg      = { 'ffmpeg' },
 	jivelite    = { 'jivelite' },
 	server78    = { 'logitechmediaserver-7.8-lms', 'squeezeserver' },
 	server79    = { 'logitechmediaserver-7.9-lms', 'squeezeserver' }

@@ -328,6 +328,7 @@ return {
 		title = "Update",
 		installremove = "Install/Remove",
 		squeezelite = "Squeezelite",
+		ffmpeg = "WMA/ALAC Support",
 		server78 = "Squeeze Server 7.8",
 		server79 = "Squeeze Server 7.9",
 		jivelite = "Jivelite",
@@ -345,6 +346,7 @@ return {
 		"<li>Select <i><b>Partial / Full Clean</b></i> to remove downloaded files used by the update process.  This saves disk space and may be necessary if errors occur due when downloading.  (Partial clean removes less files and should be tried first.)</li>" ..
 		"<li><i><b>Install/Remove</b></i> allows you to add or remove optional components.  Select components to install and then press the <i>Install/Remove</i> button.  Installable options are:" ..
 		"<ul><li>Squeezelite - audio playback application (required if you want audio playback)</li>" ..
+		"<li>WMA ALAC Support - support for WMA and Apple lossless codecs (restart player after installing)</li>" ..
 		"<li>Jivelite - HDMI user interface (install for user interface on your device)</li>" ..
 		"<li>Squeeze Server 7.8 - stable version of Logitech media server 7.8</li>"..
 		"<li>Squeeze Server 7.9 - beta version of Logitech media server 7.9 which tracks ongoing developments and may be unstable.  Note: only one version of Squeeze Server can be installed at one time.</li>" ..
