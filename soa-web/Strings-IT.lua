@@ -135,6 +135,9 @@ return {
 		bit_32 = "32 bit",
 		mmap_off = "MMAP disattivo",
 		mmap_on = "MMAP attivo",
+		alsa_volume = "Volume Alsa",
+		vol_max = "Massimo",
+		vol_adjust = "Regola",
 		dop_supported = "Il Dispositivo supporta il DoP",
 		name_tip = "Nome del Player (facoltativo)",
 		device_tip = "Seleziona il dispositivo audio",
@@ -142,6 +145,8 @@ return {
 		alsa_period_tip = "Conteggio del numero di periodi del buffer Alsa in bytes (facoltativo)",
 		alsa_format_tip = "Formato della frequenza di campionamento Alsa (facoltativo)",
 		alsa_mmap_tip = "Supporto del servizio MMAP (facoltativo)",
+		volume_control_tip = "Per regolare il controllo volume Alsa (facoltativo)",
+		volume_function_tip = "'Massimo' per impostare il controllo Alsa al massimo. 'Regola' per gestire il volume tramite il controllo Alsa (facoltativo)",
 		rate_tip = "Massima frequenza supportata oppure lista di frequenze separate da una virgola (facoltativo)",
 		rate_delay_tip = "Ritardo nel passaggio da una frequenza di campionamento ad un altra in ms (facoltativo)",
 		dop_tip = "Abilita il DoP (DSD over PCM)",
@@ -224,6 +229,7 @@ return {
 		"<li><i>Formato (Alsa) della frequenza</i> rappresenta il numero di bit di dati inviati ad Alsa per ciascun campione - prova con il valore 16 se altri valori non dovessero funzionare.</li>" ..
 		"<li><i>MMAP (Alsa)</i> consente di abilitare o disabilitare il servizio Alsa MMAP che riduce il carico della CPU, prova a disabilitarlo se il Player non dovessere funzionare.</li>" ..
 		"</ul>" ..
+		"<li><i><b>Volume Alsa</b></i> consente di specificare come viene controllato il volume del player. Come scelta di default il volume viene gestito attraverso lo Squeezelite Player. Utlizza questa opzione per regolare il volume audio di linux (Alsa) del tuo dispositivo qualora il volume non fosse al massimo con i settaggi di default. Puoi pertanto controllare il volume di linux per l' output del tuo dispositivo e decidere quindi se riattivare l' audio (unmute) e settare il volume al massimo, oppure se regolare il volume del player.</li>" ..  
 		"<li><i><b>Campionamneto</b></i> consente di specificare le frequenze di campionamneto supportate dal dispositivo prima dell' avvio dello Squeezelite Player. Puoi o specificare una frequenza di campionamento <i>massima</i>, oppure specificare tutte le frequenze supportate separate da una virgola. Se il tuo DAC lo richiede, puoi anche specificare un ritardo in ms da aggiungere quando si cambia frequenza di campionamneto.</li>" ..
 		"<li><i><b>DoP</b></i> consente di abilitare il playback DoP (DSP over PCM) per il tuo DAC. Puoi anche specificare un ritardo in ms quando si passa dalla modalitá PCM a quella DoP e viceversa.</li></ul>",
 		context_resample = 
