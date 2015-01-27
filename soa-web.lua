@@ -397,6 +397,21 @@ local zonefiles   = '/usr/share/zoneinfo/'
 local localefile  = '/etc/locale.conf'
 local localesfile = '/etc/locale.gen'
 
+function _hostname()
+	local hostname = ""
+	local file = io.open("/etc/hostname", 'r')
+	if file then
+		hostname = file:read("*l")
+		file:close()
+	end
+	return hostname
+end
+
+function _zone()
+	local info = util.capture("ls -l /etc/localtime")
+	return string.match(info, zonefiles .. "(.-)\n")
+end
+
 function _zones(dir)
 	local attr = lfs.attributes(zonefiles .. (dir or ""))
 	local t = {}
@@ -435,18 +450,11 @@ end
 function SystemHandler:_response()
 	local t = {}
 
-	t['p_hostname'] = ""
-	local file = io.open("/etc/hostname", 'r')
-	if file then
-		t['p_hostname'] = file:read("*l")
-		file:close()
-	end
-	
+	t['p_hostname'] = _hostname()
+
+	local zone = _zone()
 	local zones = _zones()
 	table.sort(zones)
-	
-	local info = util.capture("ls -l /etc/localtime")
-	local zone = string.match(info, zonefiles .. "(.-)\n")
 	
 	t['p_zones'] = {}
 	for _, v in ipairs(zones) do
@@ -484,18 +492,18 @@ function SystemHandler:post()
 	local newzone   = self:get_argument("timezone", false)
 	local newlocale = self:get_argument("locale", false)
 
-	if hostname then
+	if hostname and hostname ~= _hostname() then
 		log.debug("setting hostname to " .. hostname)
 		util.execute("sudo hostnamectl set-hostname " .. hostname)
 		util.execute("sudo systemctl restart avahi-daemon")
 	end
 	
-	if newzone then
+	if newzone and newzone ~= _zone() then
 		log.debug("setting timezone to " .. newzone)
 		util.execute("sudo ln -sf /usr/share/zoneinfo/" .. newzone .. " /etc/localtime")
 	end
 
-	if newlocale and newlocate ~= _locale() then
+	if newlocale and newlocale ~= _locale() then
 		log.debug("setting locale to " .. newlocale)
 		util.execute("sudo sed -i 's/#" .. newlocale .. "/" .. newlocale .. "/' " .. localesfile)
 		util.execute("sudo locale-gen")
