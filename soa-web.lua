@@ -888,7 +888,7 @@ function StorageHandler:post()
 		
 		local spec = self:get_argument('spec', false)
 		local mountp = self:get_argument('mountpoint', false)
-		local type = self:get_argument('type', false)
+		local type = self:get_argument('type', '')
 		local opts = self:get_argument('options', false)
 		
 		local type_map = { fat = 'vfat', ntfs = 'ntfs-3g' }
